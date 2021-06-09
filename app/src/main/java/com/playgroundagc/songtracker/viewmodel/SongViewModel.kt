@@ -1,21 +1,25 @@
-package com.playgroundagc.songtracker.data
+package com.playgroundagc.songtracker.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.playgroundagc.songtracker.data.SongDatabase
+import com.playgroundagc.songtracker.model.Song
+import com.playgroundagc.songtracker.repository.SongRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 /**
  * Created by Amadou on 07/06/2021, 17:44
  *
- * TODO: File Description
+ * Song ViewModel File
  *
  */
+
 class SongViewModel(application: Application): AndroidViewModel(application) {
 
-    private val readAllData: LiveData<List<Song>>
+    val readAllData: Flow<List<Song>>
     private val repository: SongRepository
 
     init {

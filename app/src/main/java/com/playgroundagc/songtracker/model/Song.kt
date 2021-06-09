@@ -1,7 +1,8 @@
-package com.playgroundagc.songtracker.data
+package com.playgroundagc.songtracker.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.playgroundagc.songtracker.data.SongStatus
 
 /**
  * Created by Amadou on 07/06/2021, 17:25
