@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/listFragment">
+
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.playgroundagc.songtracker.fragments.add.AddFragment"
+        android:label="Add new song"
+        tools:layout="@layout/fragment_add" >
+        <action
+            android:id="@+id/addFragmentTolistFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.playgroundagc.songtracker.fragments.list.ListFragment"
+        android:label="Song list"
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/listFragmentToAddFragment"
+            app:destination="@id/addFragment" />
+    </fragment>
+</navigation>

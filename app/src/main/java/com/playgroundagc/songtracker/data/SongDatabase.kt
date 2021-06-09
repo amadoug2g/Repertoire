@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.playgroundagc.songtracker.model.Song
 
 /**
  * Created by Amadou on 07/06/2021, 17:37

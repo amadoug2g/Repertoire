@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Song Tracker</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="song_name_hint">Song Name</string>
+    <string name="add_btn_text">Ajouter</string>
+    <string name="song_artist_hint">Artist</string>
+    <string name="textView">text</string>
+    <string name="song_status_hint">Learned</string>
+    <string name="song_id_hint">#001</string>
 </resources>
