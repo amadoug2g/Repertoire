@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="song_name_hint">Song Name</string>
-    <string name="add_btn_text">Ajouter</string>
+    <string name="add_btn_text">Add</string>
     <string name="song_artist_hint">Artist</string>
     <string name="textView">text</string>
     <string name="song_status_hint">Learned</string>
     <string name="song_id_hint">#001</string>
+    <string name="update_song">Update song</string>
+    <string name="delete_song">Delete Song</string>
+    <string name="delete_song_message">You\'re about to delete this song. Proceed?</string>
+    <string name="cancel_message">Cancel</string>
+    <string name="confirm_message">OK</string>
 </resources>

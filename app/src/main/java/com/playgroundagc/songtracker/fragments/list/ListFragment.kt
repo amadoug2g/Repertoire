@@ -27,6 +27,7 @@ class ListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(SongViewModel::class.java)
+        setHasOptionsMenu(false)
     }
 
     override fun onCreateView(

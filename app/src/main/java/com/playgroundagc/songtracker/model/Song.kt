@@ -1,8 +1,10 @@
 package com.playgroundagc.songtracker.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.playgroundagc.songtracker.data.SongStatus
+import kotlinx.parcelize.Parcelize
 
 /**
  * Created by Amadou on 07/06/2021, 17:25
@@ -11,6 +13,7 @@ import com.playgroundagc.songtracker.data.SongStatus
  *
  */
 
+@Parcelize
 @Entity(tableName = "song_data")
 data class Song(
     @PrimaryKey(autoGenerate = true)
@@ -18,6 +21,6 @@ data class Song(
     val name: String,
     val artist: String,
     var status: SongStatus
-)
+): Parcelable
 
 

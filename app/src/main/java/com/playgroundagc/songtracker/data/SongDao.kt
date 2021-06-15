@@ -1,9 +1,6 @@
 package com.playgroundagc.songtracker.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.playgroundagc.songtracker.model.Song
 import kotlinx.coroutines.flow.Flow
 
@@ -18,6 +15,9 @@ import kotlinx.coroutines.flow.Flow
 interface SongDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addSong(song: Song)
+
+    @Update
+    suspend fun updateSong(song: Song)
 
     @Query("SELECT * FROM song_data ORDER BY id ASC")
     fun readAllData(): Flow<List<Song>>

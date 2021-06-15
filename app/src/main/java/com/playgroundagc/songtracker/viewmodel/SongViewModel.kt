@@ -33,4 +33,10 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
             repository.addSong(song)
         }
     }
+
+    fun updateSong(song: Song) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateSong(song)
+        }
+    }
 }

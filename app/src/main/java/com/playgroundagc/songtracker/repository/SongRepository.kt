@@ -19,4 +19,7 @@ class SongRepository(private val songDao: SongDao) {
         songDao.addSong(song)
     }
 
+    suspend fun updateSong(song: Song) {
+        songDao.updateSong(song)
+    }
 }

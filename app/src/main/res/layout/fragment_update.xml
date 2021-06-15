@@ -3,11 +3,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="song"
+            type="com.playgroundagc.songtracker.fragments.update.UpdateFragmentArgs" />
+    </data>
+
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".fragments.update.UpdateFragment">
-
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/song_name_layout_update"
@@ -23,6 +28,7 @@
                 android:id="@+id/song_name_input_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@{song.currentSong.name}"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -41,6 +47,7 @@
                 android:id="@+id/song_artist_input_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@{song.currentSong.artist}"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>

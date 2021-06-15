@@ -2,11 +2,17 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="song"
+            type="com.playgroundagc.songtracker.fragments.detail.DetailFragmentArgs" />
+    </data>
+
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".fragments.add.AddFragment">
+        tools:context=".fragments.detail.DetailFragment">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/song_name_detail"
@@ -16,7 +22,7 @@
             android:layout_marginTop="128dp"
             android:layout_marginEnd="32dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:text="@string/song_name_hint"/>
+            android:text="@{song.currentSong.name}"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/song_artist_detail"
@@ -26,24 +32,17 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:text="@string/song_artist_hint"/>
+            android:text="@{song.currentSong.artist}"/>
 
-        <Spinner
-            android:id="@+id/spinner_song_status"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/song_status_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp" />
-
-        <Button
-            android:id="@+id/button_add_song"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:text="@string/add_btn_text"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:text="@{song.currentSong.status.value.toString()}"/>
     </LinearLayout>
 
 </layout>
