@@ -6,15 +6,6 @@
     app:startDestination="@id/listFragment">
 
     <fragment
-        android:id="@+id/addFragment"
-        android:name="com.playgroundagc.songtracker.fragments.add.AddFragment"
-        android:label="Add new song"
-        tools:layout="@layout/fragment_add" >
-        <action
-            android:id="@+id/addFragmentTolistFragment"
-            app:destination="@id/listFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/listFragment"
         android:name="com.playgroundagc.songtracker.fragments.list.ListFragment"
         android:label="Song list"
@@ -22,5 +13,37 @@
         <action
             android:id="@+id/listFragmentToAddFragment"
             app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/listFragmentToDetailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.playgroundagc.songtracker.fragments.add.AddFragment"
+        android:label="Add new song"
+        tools:layout="@layout/fragment_add" >
+        <action
+            android:id="@+id/addFragmentToListFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.playgroundagc.songtracker.fragments.detail.DetailFragment"
+        android:label="Song details" >
+        <action
+            android:id="@+id/detailFragmentToListFragment"
+            app:destination="@id/listFragment" />
+        <action
+            android:id="@+id/detailFragmentToUpdateFragment"
+            app:destination="@id/updateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateFragment"
+        android:name="com.playgroundagc.songtracker.fragments.update.UpdateFragment"
+        android:label="Update song" >
+        <action
+            android:id="@+id/updateFragmentToDetailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
 </navigation>
