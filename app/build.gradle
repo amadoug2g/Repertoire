@@ -90,6 +90,9 @@ dependencies {
     //Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.0-alpha02'
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.0-alpha02'
+
+    //Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }
 
 ext {

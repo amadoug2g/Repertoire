@@ -17,9 +17,9 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "song_data")
 data class Song(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val name: String,
-    val artist: String,
+    var id: Int,
+    var name: String,
+    var artist: String,
     var status: SongStatus
 ): Parcelable
 

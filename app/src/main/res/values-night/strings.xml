@@ -11,4 +11,6 @@
     <string name="delete_song_message">You\'re about to delete this song. Proceed?</string>
     <string name="cancel_message">Cancel</string>
     <string name="confirm_message">OK</string>
+    <string name="update_btn_text">Update</string>
+    <string name="cancel_btn_text">Cancel</string>
 </resources>

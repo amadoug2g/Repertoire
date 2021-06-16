@@ -26,9 +26,6 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = songList[position]
         holder.bind(currentItem)
-        holder.itemView.setOnClickListener {
-            Log.i("ListAdapter1","Song is ${currentItem.name}")
-        }
     }
 
     override fun getItemCount(): Int {
@@ -45,16 +42,9 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
             with(binding) {
                 binding.song = song
                 binding.textSongId.text = song.id.toString()
-
-                binding.root.setOnClickListener {
-                    Log.i("ListAdapter2","Song is ${song.name}")
-                }
             }
 
             binding.songCardView.setOnClickListener {
-                Log.i("ListAdapter3","Song is ${song.name}")
-                Log.i("ListAdapter3","Song status is ${song.status}")
-                Log.i("ListAdapter3","Song status name is ${song.status.value}")
                 val action = ListFragmentDirections.listFragmentToDetailFragment(song)
                 itemView.findNavController().navigate(action)
             }

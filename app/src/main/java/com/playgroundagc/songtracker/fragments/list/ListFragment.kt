@@ -58,9 +58,6 @@ class ListFragment : Fragment() {
         lifecycleScope.launchWhenResumed {
             viewModel.readAllData.collect { value ->
                 adapter.setData(value)
-//                value.forEach {
-//                    Log.i("Console"," data = $it")
-//                }
             }
         }
     }
