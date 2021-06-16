@@ -1,9 +1,7 @@
 package com.playgroundagc.songtracker.repository
 
-import androidx.lifecycle.LiveData
 import com.playgroundagc.songtracker.data.SongDao
 import com.playgroundagc.songtracker.model.Song
-import com.playgroundagc.songtracker.util.SingleLiveEvent
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -23,5 +21,13 @@ class SongRepository(private val songDao: SongDao) {
 
     suspend fun updateSong(song: Song) {
         songDao.updateSong(song)
+    }
+
+    suspend fun deleteSong(song: Song) {
+        songDao.deleteSong(song)
+    }
+
+    suspend fun deleteAllSongs() {
+        songDao.deleteAllSongs()
     }
 }

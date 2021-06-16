@@ -65,16 +65,16 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/text_song_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="#ID"
-                        android:layout_marginEnd="8dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:textSize="14sp"
-                        android:textStyle="normal" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/text_song_id"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="8dp"-->
+<!--                        android:layout_alignParentEnd="true"-->
+<!--                        android:layout_alignParentBottom="true"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:textStyle="normal" />-->
+
                 </RelativeLayout>
 
 

@@ -50,9 +50,21 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun updateSong(song: Song) {
+    fun updateSong() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateSong(song)
+            repository.updateSong(currentSong.value!!)
+        }
+    }
+
+    fun deleteSong() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteSong(currentSong.value!!)
+        }
+    }
+
+    fun deleteAllSongs() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllSongs()
         }
     }
 }

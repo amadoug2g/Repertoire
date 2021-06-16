@@ -64,7 +64,7 @@ class DetailFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.song_add_menu, menu)
+        inflater.inflate(R.menu.song_detail_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -148,8 +148,8 @@ class DetailFragment : Fragment() {
         if (inputCheck(name, artist)) {
             val updatedSong = Song(song.id, name, artist, status)
 
-            viewModel.updateSong(updatedSong)
             viewModel.assignSong(updatedSong)
+            viewModel.updateSong()
 
             toast("${updatedSong.name} updated")
 
@@ -166,8 +166,11 @@ class DetailFragment : Fragment() {
 
     //region Delete Option
     private fun deleteAlert() {
+        val titleAlert = getString(R.string.delete_song) + " ${viewModel.currentSong.value?.name}"
+        val messageAlert = getString(R.string.delete_song_message) + " ${viewModel.currentSong.value?.name}"
+
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.delete_song))
+            .setTitle(titleAlert)
             .setMessage(getString(R.string.delete_song_message))
             .setPositiveButton(R.string.confirm_message) { _: DialogInterface, _: Int ->
                 deleteSong()
@@ -177,8 +180,9 @@ class DetailFragment : Fragment() {
     }
 
     private fun deleteSong() {
-        toast("Deleting song...")
-//                        findNavController().navigate(R.id.detailFragmentToListFragment)
+        viewModel.deleteSong()
+        requireActivity().onBackPressed()
+        toast("Song deleted successfully !")
     }
     //endregion
 }

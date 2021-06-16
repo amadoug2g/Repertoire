@@ -41,7 +41,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         fun bind(song: Song) {
             with(binding) {
                 binding.song = song
-                binding.textSongId.text = song.id.toString()
+//                binding.textSongId.text = song.id.toString()
             }
 
             binding.songCardView.setOnClickListener {
