@@ -167,11 +167,11 @@ class DetailFragment : Fragment() {
     //region Delete Option
     private fun deleteAlert() {
         val titleAlert = getString(R.string.delete_song) + " ${viewModel.currentSong.value?.name}"
-        val messageAlert = getString(R.string.delete_song_message) + " ${viewModel.currentSong.value?.name}"
+        val messageAlert = getString(R.string.delete_song_message)
 
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(titleAlert)
-            .setMessage(getString(R.string.delete_song_message))
+            .setMessage(messageAlert)
             .setPositiveButton(R.string.confirm_message) { _: DialogInterface, _: Int ->
                 deleteSong()
             }

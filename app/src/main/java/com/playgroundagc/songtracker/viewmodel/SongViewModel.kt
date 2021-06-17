@@ -1,21 +1,17 @@
 package com.playgroundagc.songtracker.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.playgroundagc.songtracker.data.SongDatabase
-import com.playgroundagc.songtracker.data.SongStatus
 import com.playgroundagc.songtracker.model.Song
 import com.playgroundagc.songtracker.repository.SongRepository
 import com.playgroundagc.songtracker.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 /**
  * Created by Amadou on 07/06/2021, 17:44
@@ -26,22 +22,42 @@ import timber.log.Timber
 
 class SongViewModel(application: Application): AndroidViewModel(application) {
 
-    val readAllData: Flow<List<Song>>
+    val readAllDataASC: Flow<List<Song>>
+    val readAllDataByNameASC: Flow<List<Song>>
+    val readAllDataByStatusASC: Flow<List<Song>>
+    val readAllDataDESC: Flow<List<Song>>
+    val readAllDataByNameDESC: Flow<List<Song>>
+    val readAllDataByStatusDESC: Flow<List<Song>>
     private val repository: SongRepository
 
     private val _currentSong = SingleLiveEvent<Song>()
     val currentSong : LiveData<Song>
         get() = _currentSong
 
+    val sortSelect = MutableLiveData(0)
+    val alphaSelect = MutableLiveData(true)
 
     init {
         val songDao = SongDatabase.getDatabase(application).songDao()
         repository = SongRepository(songDao)
-        readAllData = repository.readAllData
+        readAllDataASC = repository.readAllDataASC
+        readAllDataByNameASC = repository.readAllDataByNameASC
+        readAllDataByStatusASC = repository.readAllDataByStatusASC
+        readAllDataDESC = repository.readAllDataDESC
+        readAllDataByNameDESC = repository.readAllDataByNameDESC
+        readAllDataByStatusDESC = repository.readAllDataByStatusDESC
     }
 
     fun assignSong(currentSong: Song) {
         _currentSong.value = currentSong
+    }
+
+    fun assignSelection(int: Int) {
+        sortSelect.value = int
+    }
+
+    fun assignAlphaSelect(value: Boolean) {
+        alphaSelect.value = value
     }
     
     fun addSong(song: Song) {

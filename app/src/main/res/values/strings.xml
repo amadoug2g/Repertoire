@@ -16,4 +16,5 @@
     <string name="confirm_message">Yes</string>
     <string name="cancel_btn_text">Cancel</string>
     <string name="sort_song">Sort</string>
+    <string name="sort_by_alpha">Ascending / Descending</string>
 </resources>
