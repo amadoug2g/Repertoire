@@ -25,6 +25,21 @@ interface SongDao {
     @Query("DELETE FROM song_data")
     suspend fun deleteAllSongs()
 
+    @Query("SELECT * FROM song_data ORDER BY id ASC")
+    fun readAllDataASC(): Flow<List<Song>>
+
     @Query("SELECT * FROM song_data ORDER BY id DESC")
-    fun readAllData(): Flow<List<Song>>
+    fun readAllDataDESC(): Flow<List<Song>>
+
+    @Query("SELECT * FROM song_data ORDER BY name ASC")
+    fun readAllDataByNameASC(): Flow<List<Song>>
+
+    @Query("SELECT * FROM song_data ORDER BY name DESC")
+    fun readAllDataByNameDESC(): Flow<List<Song>>
+
+    @Query("SELECT * FROM song_data ORDER BY status ASC")
+    fun readAllDataByStatusASC(): Flow<List<Song>>
+
+    @Query("SELECT * FROM song_data ORDER BY status DESC")
+    fun readAllDataByStatusDESC(): Flow<List<Song>>
 }

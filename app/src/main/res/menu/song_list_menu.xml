@@ -6,4 +6,9 @@
         android:icon="@drawable/ic_sort"
         android:title="@string/sort_song"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/song_sort_order_menu_btn"
+        android:icon="@drawable/ic_sort_by_alpha"
+        android:title="@string/sort_by_alpha"
+        app:showAsAction="ifRoom" />
 </menu>

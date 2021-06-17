@@ -13,7 +13,12 @@ import kotlinx.coroutines.flow.Flow
 
 class SongRepository(private val songDao: SongDao) {
 
-    val readAllData: Flow<List<Song>> = songDao.readAllData()
+    val readAllDataASC: Flow<List<Song>> = songDao.readAllDataASC()
+    val readAllDataByNameASC: Flow<List<Song>> = songDao.readAllDataByNameASC()
+    val readAllDataByStatusASC: Flow<List<Song>> = songDao.readAllDataByStatusASC()
+    val readAllDataDESC: Flow<List<Song>> = songDao.readAllDataDESC()
+    val readAllDataByNameDESC: Flow<List<Song>> = songDao.readAllDataByNameDESC()
+    val readAllDataByStatusDESC: Flow<List<Song>> = songDao.readAllDataByStatusDESC()
 
     suspend fun addSong(song: Song){
         songDao.addSong(song)
