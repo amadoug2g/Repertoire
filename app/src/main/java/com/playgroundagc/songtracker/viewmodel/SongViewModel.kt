@@ -22,12 +22,19 @@ import kotlinx.coroutines.launch
 
 class SongViewModel(application: Application): AndroidViewModel(application) {
 
+    //region Variables
     val readAllDataASC: Flow<List<Song>>
     val readAllDataByNameASC: Flow<List<Song>>
     val readAllDataByStatusASC: Flow<List<Song>>
+    val readStatusNotStartedDataASC: Flow<List<Song>>
+    val readStatusInProgressDataASC: Flow<List<Song>>
+    val readStatusLearnedDataASC: Flow<List<Song>>
     val readAllDataDESC: Flow<List<Song>>
     val readAllDataByNameDESC: Flow<List<Song>>
     val readAllDataByStatusDESC: Flow<List<Song>>
+    val readStatusNotStartedDataDESC: Flow<List<Song>>
+    val readStatusInProgressDataDESC: Flow<List<Song>>
+    val readStatusLearnedDataDESC: Flow<List<Song>>
     private val repository: SongRepository
 
     private val _currentSong = SingleLiveEvent<Song>()
@@ -36,6 +43,10 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
 
     val sortSelect = MutableLiveData(0)
     val alphaSelect = MutableLiveData(true)
+    val notStartedSelect = MutableLiveData(true)
+    val inProgressSelect = MutableLiveData(true)
+    val learnedSelect = MutableLiveData(true)
+    //endregion
 
     init {
         val songDao = SongDatabase.getDatabase(application).songDao()
@@ -43,11 +54,18 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
         readAllDataASC = repository.readAllDataASC
         readAllDataByNameASC = repository.readAllDataByNameASC
         readAllDataByStatusASC = repository.readAllDataByStatusASC
+        readStatusNotStartedDataASC = repository.readStatusNotStartedDataASC
+        readStatusInProgressDataASC = repository.readStatusInProgressDataASC
+        readStatusLearnedDataASC = repository.readStatusLearnedDataASC
         readAllDataDESC = repository.readAllDataDESC
         readAllDataByNameDESC = repository.readAllDataByNameDESC
         readAllDataByStatusDESC = repository.readAllDataByStatusDESC
+        readStatusNotStartedDataDESC = repository.readStatusNotStartedDataDESC
+        readStatusInProgressDataDESC = repository.readStatusInProgressDataDESC
+        readStatusLearnedDataDESC = repository.readStatusLearnedDataDESC
     }
 
+    //region LiveData Assignments
     fun assignSong(currentSong: Song) {
         _currentSong.value = currentSong
     }
@@ -59,7 +77,21 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
     fun assignAlphaSelect(value: Boolean) {
         alphaSelect.value = value
     }
-    
+
+    fun assignNotStartedSelect(value: Boolean) {
+        notStartedSelect.value = value
+    }
+
+    fun assignInProgressSelect(value: Boolean) {
+        inProgressSelect.value = value
+    }
+
+    fun assignLearnedSelect(value: Boolean) {
+        learnedSelect.value = value
+    }
+    //endregion
+
+    //region Database Operations
     fun addSong(song: Song) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addSong(song)
@@ -83,4 +115,5 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
             repository.deleteAllSongs()
         }
     }
+    //endregion
 }

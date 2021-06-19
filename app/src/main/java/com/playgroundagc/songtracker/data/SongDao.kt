@@ -42,4 +42,10 @@ interface SongDao {
 
     @Query("SELECT * FROM song_data ORDER BY status DESC")
     fun readAllDataByStatusDESC(): Flow<List<Song>>
+
+    @Query("SELECT * FROM song_data WHERE status = :status ORDER BY id ASC")
+    fun readStatusDataASC(status: SongStatus): Flow<List<Song>>
+
+    @Query("SELECT * FROM song_data WHERE status = :status ORDER BY id DESC")
+    fun readStatusDataDESC(status: SongStatus): Flow<List<Song>>
 }

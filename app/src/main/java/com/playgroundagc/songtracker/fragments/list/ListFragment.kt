@@ -9,17 +9,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.tabs.TabLayout
+import com.playgroundagc.songtracker.MainActivity
+import com.playgroundagc.songtracker.MainActivity.Companion.navController
 import com.playgroundagc.songtracker.R
 import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import com.playgroundagc.songtracker.databinding.FragmentListBinding
+import com.playgroundagc.songtracker.fragments.list.adapters.ListAdapter
 import kotlinx.coroutines.flow.collect
+import org.jetbrains.anko.support.v4.toast
 
 class ListFragment : Fragment() {
 
     companion object {
         private lateinit var binding: FragmentListBinding
         private lateinit var viewModel: SongViewModel
-        private var initialCheckedItems =  mutableListOf<Boolean>()
     }
 
     //region Override Methods
@@ -27,7 +31,7 @@ class ListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(SongViewModel::class.java)
-        setHasOptionsMenu(true)
+//        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -41,14 +45,41 @@ class ListFragment : Fragment() {
             false
         )
 
-        setUpRecyclerViewDESC(0)
-
         binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.listFragmentToAddFragment)
+            navController.navigate(R.id.listFragmentToAddFragment)
         }
+        setUpRecyclerViewNotStarted()
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> {
+                        setUpRecyclerViewNotStarted()
+                    }
+                    1 -> {
+                        setUpRecyclerViewInProgress()
+                    }
+                    2 -> {
+                        setUpRecyclerViewLearned()
+                    }
+                }
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+
+        })
 
         return binding.root
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.song_list_menu, menu)
@@ -91,7 +122,7 @@ class ListFragment : Fragment() {
     }
     //endregion
 
-    //region Update Option
+    //region Sort By Alpha Option
     private fun sortSongsByAlpha() {
         viewModel.assignAlphaSelect(!viewModel.alphaSelect.value!!)
         when (viewModel.sortSelect.value) {
@@ -179,6 +210,42 @@ class ListFragment : Fragment() {
                         adapter.setData(value)
                     }
                 }
+            }
+        }
+    }
+
+    private fun setUpRecyclerViewNotStarted() {
+        val adapter = ListAdapter()
+        binding.recyclerview.adapter = adapter
+        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
+
+        lifecycleScope.launchWhenResumed {
+            viewModel.readStatusNotStartedDataDESC.collect { value ->
+                adapter.setData(value)
+            }
+        }
+    }
+
+    private fun setUpRecyclerViewInProgress() {
+        val adapter = ListAdapter()
+        binding.recyclerview.adapter = adapter
+        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
+
+        lifecycleScope.launchWhenResumed {
+            viewModel.readStatusInProgressDataDESC.collect { value ->
+                adapter.setData(value)
+            }
+        }
+    }
+
+    private fun setUpRecyclerViewLearned() {
+        val adapter = ListAdapter()
+        binding.recyclerview.adapter = adapter
+        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
+
+        lifecycleScope.launchWhenResumed {
+            viewModel.readStatusLearnedDataDESC.collect { value ->
+                adapter.setData(value)
             }
         }
     }

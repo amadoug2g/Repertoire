@@ -17,4 +17,8 @@
     <string name="cancel_btn_text">Cancel</string>
     <string name="sort_song">Sort</string>
     <string name="sort_by_alpha">Ascending / Descending</string>
+    <string name="add_song_fab">Add Song</string>
+    <string name="learned_tab">Learned</string>
+    <string name="in_progress_tab">In Progress</string>
+    <string name="not_started_tab">Not Started</string>
 </resources>

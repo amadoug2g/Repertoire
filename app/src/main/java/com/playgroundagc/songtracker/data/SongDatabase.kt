@@ -9,11 +9,11 @@ import com.playgroundagc.songtracker.model.Song
 /**
  * Created by Amadou on 07/06/2021, 17:37
  *
- * TODO: File Description
+ * Room Database File
  *
  */
 
-@Database(entities = [Song::class], version = 1, exportSchema = false)
+@Database(entities = [Song::class], version = 1, exportSchema = true)
 abstract class SongDatabase : RoomDatabase() {
 
     abstract fun songDao(): SongDao
