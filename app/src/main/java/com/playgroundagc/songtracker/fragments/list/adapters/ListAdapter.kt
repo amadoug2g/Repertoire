@@ -8,7 +8,9 @@ import androidx.fragment.app.findFragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import com.playgroundagc.songtracker.MainActivity.Companion.navController
+import com.playgroundagc.songtracker.R
 import com.playgroundagc.songtracker.data.SongStatus
 import com.playgroundagc.songtracker.model.Song
 import com.playgroundagc.songtracker.databinding.SongCardviewBinding
@@ -54,6 +56,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
             binding.songCardView.setOnClickListener {
                 val action = ListFragmentDirections.listFragmentToDetailFragment(song)
                 navController.navigate(action)
+
             }
         }
 

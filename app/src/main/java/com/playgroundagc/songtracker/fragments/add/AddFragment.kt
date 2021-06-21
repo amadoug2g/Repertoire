@@ -53,8 +53,10 @@ class AddFragment : Fragment() {
 
     //region Spinner Setup
     private fun setupStatusSpinner() {
+        val statusArray = arrayOf( "Not started", "In Progress", "Learned")
+
         binding.spinnerSongStatusAdd.adapter =
-            ArrayAdapter(requireContext(), R.layout.simple_layout_file, SongStatus.values())
+            ArrayAdapter(requireContext(), R.layout.simple_layout_file, statusArray)
     }
     //endregion
 

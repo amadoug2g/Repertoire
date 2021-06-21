@@ -38,6 +38,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="4dp"
                     android:textSize="24sp"
+                    android:transitionName="name_transition_field"
                     android:textStyle="bold" />
 
                 <TextView
@@ -48,6 +49,7 @@
                     android:layout_marginStart="18dp"
                     android:layout_marginEnd="4dp"
                     android:textSize="14sp"
+                    android:transitionName="artist_transition_field"
                     android:textStyle="normal" />
 
                 <RelativeLayout

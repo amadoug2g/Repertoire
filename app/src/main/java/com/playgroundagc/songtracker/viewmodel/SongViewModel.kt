@@ -23,17 +23,17 @@ import kotlinx.coroutines.launch
 class SongViewModel(application: Application): AndroidViewModel(application) {
 
     //region Variables
-    val readAllDataASC: Flow<List<Song>>
-    val readAllDataByNameASC: Flow<List<Song>>
-    val readAllDataByStatusASC: Flow<List<Song>>
+//    val readAllDataASC: Flow<List<Song>>
+//    val readAllDataByNameASC: Flow<List<Song>>
+//    val readAllDataDESC: Flow<List<Song>>
+//    val readAllDataByNameDESC: Flow<List<Song>>
+//    val readAllDataByStatusDESC: Flow<List<Song>>
+//    val readAllDataByStatusASC: Flow<List<Song>>
     val readStatusNotStartedDataASC: Flow<List<Song>>
-    val readStatusInProgressDataASC: Flow<List<Song>>
-    val readStatusLearnedDataASC: Flow<List<Song>>
-    val readAllDataDESC: Flow<List<Song>>
-    val readAllDataByNameDESC: Flow<List<Song>>
-    val readAllDataByStatusDESC: Flow<List<Song>>
     val readStatusNotStartedDataDESC: Flow<List<Song>>
+    val readStatusInProgressDataASC: Flow<List<Song>>
     val readStatusInProgressDataDESC: Flow<List<Song>>
+    val readStatusLearnedDataASC: Flow<List<Song>>
     val readStatusLearnedDataDESC: Flow<List<Song>>
     private val repository: SongRepository
 
@@ -41,7 +41,7 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
     val currentSong : LiveData<Song>
         get() = _currentSong
 
-    val sortSelect = MutableLiveData(0)
+    val tabSelect = MutableLiveData(0)
     val alphaSelect = MutableLiveData(true)
     val notStartedSelect = MutableLiveData(true)
     val inProgressSelect = MutableLiveData(true)
@@ -51,15 +51,9 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
     init {
         val songDao = SongDatabase.getDatabase(application).songDao()
         repository = SongRepository(songDao)
-        readAllDataASC = repository.readAllDataASC
-        readAllDataByNameASC = repository.readAllDataByNameASC
-        readAllDataByStatusASC = repository.readAllDataByStatusASC
         readStatusNotStartedDataASC = repository.readStatusNotStartedDataASC
         readStatusInProgressDataASC = repository.readStatusInProgressDataASC
         readStatusLearnedDataASC = repository.readStatusLearnedDataASC
-        readAllDataDESC = repository.readAllDataDESC
-        readAllDataByNameDESC = repository.readAllDataByNameDESC
-        readAllDataByStatusDESC = repository.readAllDataByStatusDESC
         readStatusNotStartedDataDESC = repository.readStatusNotStartedDataDESC
         readStatusInProgressDataDESC = repository.readStatusInProgressDataDESC
         readStatusLearnedDataDESC = repository.readStatusLearnedDataDESC
@@ -71,7 +65,7 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun assignSelection(int: Int) {
-        sortSelect.value = int
+        tabSelect.value = int
     }
 
     fun assignAlphaSelect(value: Boolean) {

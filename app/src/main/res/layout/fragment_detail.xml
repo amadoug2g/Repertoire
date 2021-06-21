@@ -26,9 +26,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="128dp"
+                android:layout_marginTop="64dp"
                 android:layout_marginEnd="32dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="28sp"
+                android:transitionName="name_transition_field"
                 android:text="@{song.name}"/>
 
             <com.google.android.material.textview.MaterialTextView
@@ -38,7 +40,8 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:transitionName="artist_transition_field"
                 android:text="@{song.artist}"/>
 
             <com.google.android.material.textview.MaterialTextView
@@ -48,7 +51,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:text="@{song.status.value.toString()}"/>
         </LinearLayout>
 

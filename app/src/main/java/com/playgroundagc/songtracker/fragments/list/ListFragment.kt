@@ -8,6 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionInflater
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.playgroundagc.songtracker.MainActivity
@@ -18,6 +21,8 @@ import com.playgroundagc.songtracker.databinding.FragmentListBinding
 import com.playgroundagc.songtracker.fragments.list.adapters.ListAdapter
 import kotlinx.coroutines.flow.collect
 import org.jetbrains.anko.support.v4.toast
+import timber.log.Timber
+import java.lang.Exception
 
 class ListFragment : Fragment() {
 
@@ -51,31 +56,34 @@ class ListFragment : Fragment() {
         setUpRecyclerViewNotStarted()
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
                     0 -> {
                         setUpRecyclerViewNotStarted()
+                        viewModel.assignSelection(tab.position)
                     }
                     1 -> {
                         setUpRecyclerViewInProgress()
+                        viewModel.assignSelection(tab.position)
                     }
                     2 -> {
                         setUpRecyclerViewLearned()
+                        viewModel.assignSelection(tab.position)
                     }
                 }
             }
 
-            override fun onTabReselected(tab: TabLayout.Tab?) {
+            override fun onTabReselected(tab: TabLayout.Tab?) { }
 
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-            }
-
-
+            override fun onTabUnselected(tab: TabLayout.Tab?) { }
         })
+
+        sharedElementEnterTransition = ChangeBounds().apply {
+            duration = 300
+        }
+        sharedElementReturnTransition = ChangeBounds().apply {
+            duration = 300
+        }
 
         return binding.root
     }
@@ -88,166 +96,162 @@ class ListFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.song_sort_menu_btn -> {
-                sortSongs()
-            }
+//            R.id.song_sort_menu_btn -> {
+//                sortSongs()
+//            }
             R.id.song_sort_order_menu_btn -> {
-                sortSongsByAlpha()
+                sortList()
             }
         }
         return super.onOptionsItemSelected(item)
     }
-    //endregion
 
-    //region Sort Option
-    private fun sortSongs() {
-        val items = arrayOf("By Id", "By Name", "By Status")
+    override fun onResume() {
+        super.onResume()
 
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.sort_song))
-            .setItems(items) { _, which ->
-                when (which) {
-                    0 -> {
-                        setUpRecyclerViewASC(0)
-                    }
-                    1 -> {
-                        setUpRecyclerViewASC(1)
-                    }
-                    else -> {
-                        setUpRecyclerViewASC(2)
-                    }
-                }
+        try {
+            binding.tabLayout.getTabAt(viewModel.tabSelect.value!!)?.select()
+        } catch (e: Exception) {
+            Timber.e("Error: $e")
+        }
+
+        when (viewModel.tabSelect.value) {
+            0 -> {
+                setUpRecyclerViewNotStarted()
             }
-            .show()
+            1 -> {
+                setUpRecyclerViewInProgress()
+            }
+            2 -> {
+                setUpRecyclerViewLearned()
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        sharedElementEnterTransition = TransitionInflater.from(requireContext())
+            .inflateTransition(R.transition.change_image_transform)
     }
     //endregion
 
-    //region Sort By Alpha Option
-    private fun sortSongsByAlpha() {
-        viewModel.assignAlphaSelect(!viewModel.alphaSelect.value!!)
-        when (viewModel.sortSelect.value) {
-            0 -> {
-                if (viewModel.alphaSelect.value!!)
-                    setUpRecyclerViewASC(0)
-                else
-                    setUpRecyclerViewDESC(0)
+    //region Ascending / Descending
+    private fun sortList() {
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> {
+                        setUpRecyclerViewNotStarted()
+                        toast("1")
+                    }
+                    1 -> {
+                        setUpRecyclerViewInProgress()
+                        toast("2")
+                    }
+                    2 -> {
+                        setUpRecyclerViewLearned()
+                        toast("3")
+                    }
+                }
             }
-            1 -> {
-                if (viewModel.alphaSelect.value!!)
-                    setUpRecyclerViewASC(1)
-                else
-                    setUpRecyclerViewDESC(1)
 
-            }
-            else -> {
-                if (viewModel.alphaSelect.value!!)
-                    setUpRecyclerViewASC(2)
-                else
-                    setUpRecyclerViewDESC(2)
-            }
-        }
+            override fun onTabReselected(tab: TabLayout.Tab?) { }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) { }
+        })
     }
     //endregion
 
     //region RecyclerView
-    private fun setUpRecyclerViewASC(sortSelect: Int) {
-        val adapter = ListAdapter()
-        binding.recyclerview.adapter = adapter
-        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
-
-        viewModel.assignSelection(sortSelect)
-
-        when (sortSelect) {
-            0 -> {
-                lifecycleScope.launchWhenResumed {
-                    viewModel.readAllDataASC.collect { value ->
-                        adapter.setData(value)
-                    }
-                }
-            }
-            1 -> {
-                lifecycleScope.launchWhenResumed {
-                    viewModel.readAllDataByNameASC.collect { value ->
-                        adapter.setData(value)
-                    }
-                }
-            }
-            else -> {
-                lifecycleScope.launchWhenResumed {
-                    viewModel.readAllDataByStatusASC.collect { value ->
-                        adapter.setData(value)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun setUpRecyclerViewDESC(sortSelect: Int) {
-        val adapter = ListAdapter()
-        binding.recyclerview.adapter = adapter
-        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
-
-        viewModel.assignSelection(sortSelect)
-
-        when (sortSelect) {
-            0 -> {
-                lifecycleScope.launchWhenResumed {
-                    viewModel.readAllDataDESC.collect { value ->
-                        adapter.setData(value)
-                    }
-                }
-            }
-            1 -> {
-                lifecycleScope.launchWhenResumed {
-                    viewModel.readAllDataByNameDESC.collect { value ->
-                        adapter.setData(value)
-                    }
-                }
-            }
-            else -> {
-                lifecycleScope.launchWhenResumed {
-                    viewModel.readAllDataByStatusDESC.collect { value ->
-                        adapter.setData(value)
-                    }
-                }
-            }
-        }
-    }
-
     private fun setUpRecyclerViewNotStarted() {
         val adapter = ListAdapter()
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        lifecycleScope.launchWhenResumed {
-            viewModel.readStatusNotStartedDataDESC.collect { value ->
-                adapter.setData(value)
-            }
-        }
+//        try {
+//            viewModel.assignNotStartedSelect(!viewModel.notStartedSelect.value!!)
+//        } catch (e: Exception) {
+//            Timber.e("Error: $e")
+//        }
+
+//        when (viewModel.notStartedSelect.value) {
+//            true -> {
+                lifecycleScope.launchWhenResumed {
+                    viewModel.readStatusNotStartedDataDESC.collect { value ->
+                        adapter.setData(value)
+                    }
+                }
+//            }
+//            false -> {
+//                lifecycleScope.launchWhenResumed {
+//                    viewModel.readStatusNotStartedDataASC.collect { value ->
+//                        adapter.setData(value)
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun setUpRecyclerViewInProgress() {
         val adapter = ListAdapter()
         binding.recyclerview.adapter = adapter
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        lifecycleScope.launchWhenResumed {
-            viewModel.readStatusInProgressDataDESC.collect { value ->
-                adapter.setData(value)
-            }
-        }
+//        try {
+//            viewModel.assignInProgressSelect(!viewModel.inProgressSelect.value!!)
+//        } catch (e: Exception) {
+//            Timber.e("Error: $e")
+//        }
+
+//        when (viewModel.inProgressSelect.value) {
+//            true -> {
+                lifecycleScope.launchWhenResumed {
+                    viewModel.readStatusInProgressDataDESC.collect { value ->
+                        adapter.setData(value)
+                    }
+                }
+//            }
+//            false -> {
+//                lifecycleScope.launchWhenResumed {
+//                    viewModel.readStatusInProgressDataASC.collect { value ->
+//                        adapter.setData(value)
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun setUpRecyclerViewLearned() {
         val adapter = ListAdapter()
         binding.recyclerview.adapter = adapter
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        lifecycleScope.launchWhenResumed {
-            viewModel.readStatusLearnedDataDESC.collect { value ->
-                adapter.setData(value)
-            }
-        }
+//        try {
+//            viewModel.assignLearnedSelect(!viewModel.learnedSelect.value!!)
+//        } catch (e: Exception) {
+//            Timber.e("Error: $e")
+//        }
+//
+//        when (viewModel.learnedSelect.value) {
+//            true -> {
+                lifecycleScope.launchWhenResumed {
+                    viewModel.readStatusLearnedDataDESC.collect { value ->
+                        adapter.setData(value)
+                    }
+                }
+//            }
+//            false -> {
+//                lifecycleScope.launchWhenResumed {
+//                    viewModel.readStatusLearnedDataASC.collect { value ->
+//                        adapter.setData(value)
+//                    }
+//                }
+//            }
+//        }
     }
     //endregion
 }

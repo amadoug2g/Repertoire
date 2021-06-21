@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import androidx.transition.ChangeBounds
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.playgroundagc.songtracker.R
 import com.playgroundagc.songtracker.data.SongStatus
 import com.playgroundagc.songtracker.databinding.FragmentDetailBinding
+import com.playgroundagc.songtracker.fragments.add.AddFragment
 import com.playgroundagc.songtracker.model.Song
 import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import org.jetbrains.anko.support.v4.toast
@@ -60,6 +62,14 @@ class DetailFragment : Fragment() {
             setCurrentSongDetail()
         }
 
+
+        sharedElementEnterTransition = ChangeBounds().apply {
+            duration = 300
+        }
+        sharedElementReturnTransition = ChangeBounds().apply {
+            duration = 300
+        }
+
         return binding.root
     }
 
@@ -97,8 +107,11 @@ class DetailFragment : Fragment() {
     }
 
     private fun loadStatusUpdateSpinner() {
+
+        val statusArray = arrayOf( "Not started", "In Progress", "Learned")
+
         binding.spinnerSongStatusUpdate.adapter =
-            ArrayAdapter(requireContext(), R.layout.simple_layout_file, SongStatus.values())
+            ArrayAdapter(requireContext(), R.layout.simple_layout_file, statusArray)
     }
 
     private fun setStatusSelect(song: Song) {
