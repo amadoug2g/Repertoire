@@ -16,5 +16,3 @@ Android Studio :)
 ```
 git clone https://github.com/amadoug2g/Song_Tracker
 ```
-### 3. Get your API key
-You can get your DeepL API key by creating an account on their [website](https://www.deepl.com/pro/change-plan#developer).
