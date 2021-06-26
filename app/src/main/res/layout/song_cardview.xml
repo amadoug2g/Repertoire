@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,10 +8,9 @@
             type="com.playgroundagc.songtracker.model.Song" />
     </data>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/song_cardView"
@@ -23,65 +22,84 @@
             android:layout_marginBottom="8dp"
             android:clickable="true"
             android:focusable="true"
-            android:padding="8dp">
+            android:padding="8dp"
+            app:cardElevation="8dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/text_song_name"
+                <ImageView
+                    android:id="@+id/category_image"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:contentDescription="@string/card_image_desc"/>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{song.name}"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="4dp"
-                    android:textSize="24sp"
-                    android:transitionName="name_transition_field"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/category_image"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/text_song_artist"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@{song.artist}"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginEnd="4dp"
-                    android:textSize="14sp"
-                    android:transitionName="artist_transition_field"
-                    android:textStyle="normal" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="4dp">
                     <TextView
-                        android:id="@+id/text_song_status"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/text_song_name"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{song.status.value}"
-                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="4dp"
+                        android:text="@{song.name}"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:transitionName="name_transition_field" />
+
+                    <TextView
+                        android:id="@+id/text_song_artist"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginStart="18dp"
                         android:layout_marginEnd="4dp"
+                        android:text="@{song.artist}"
                         android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textStyle="normal"
+                        android:transitionName="artist_transition_field" />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/text_song_id"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginEnd="8dp"-->
-<!--                        android:layout_alignParentEnd="true"-->
-<!--                        android:layout_alignParentBottom="true"-->
-<!--                        android:textSize="14sp"-->
-<!--                        android:textStyle="normal" />-->
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="4dp">
 
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/text_song_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginEnd="4dp"
+                            android:text="@{song.status.value}"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:visibility="invisible" />
+
+                        <!--                    <TextView-->
+                        <!--                        android:id="@+id/text_song_id"-->
+                        <!--                        android:layout_width="wrap_content"-->
+                        <!--                        android:layout_height="wrap_content"-->
+                        <!--                        android:layout_marginEnd="8dp"-->
+                        <!--                        android:layout_alignParentEnd="true"-->
+                        <!--                        android:layout_alignParentBottom="true"-->
+                        <!--                        android:textSize="14sp"-->
+                        <!--                        android:textStyle="normal" />-->
+
+                    </RelativeLayout>
 
 
-            </LinearLayout>
+                </LinearLayout>
 
+            </RelativeLayout>
 
         </com.google.android.material.card.MaterialCardView>
 

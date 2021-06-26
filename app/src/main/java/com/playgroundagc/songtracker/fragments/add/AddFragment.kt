@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.playgroundagc.songtracker.R
+import com.playgroundagc.songtracker.data.SongCategory
 import com.playgroundagc.songtracker.model.Song
 import com.playgroundagc.songtracker.data.SongStatus
 import com.playgroundagc.songtracker.viewmodel.SongViewModel
@@ -51,12 +52,16 @@ class AddFragment : Fragment() {
     }
     //endregion
 
-    //region Spinner Setup
+    //region Spinner Setups
     private fun setupStatusSpinner() {
         val statusArray = arrayOf( "Not started", "In Progress", "Learned")
+        val categoryArray = arrayOf( "Music", "Movie / TV Shows", "Game", "Anime")
 
         binding.spinnerSongStatusAdd.adapter =
-            ArrayAdapter(requireContext(), R.layout.simple_layout_file, statusArray)
+            ArrayAdapter(requireContext(), R.layout.simple_layout_file, SongStatus.values())
+
+        binding.spinnerSongCategoryAdd.adapter =
+            ArrayAdapter(requireContext(), R.layout.simple_layout_file, SongCategory.values())
     }
     //endregion
 
@@ -64,20 +69,37 @@ class AddFragment : Fragment() {
     private fun insertDataToDatabase() {
         val name = binding.songNameInputAdd.text.toString()
         val artist = binding.songArtistInputAdd.text.toString()
-        val status = when (binding.spinnerSongStatusAdd.selectedItemPosition) {
-            0 -> {
-                SongStatus.Not_Started
-            }
-            1 -> {
-                SongStatus.In_Progress
-            }
-            else -> {
-                SongStatus.Learned
-            }
-        }
+        val status = binding.spinnerSongStatusAdd.selectedItem as SongStatus
+        val category = binding.spinnerSongStatusAdd.selectedItem as SongCategory
+
+//        val status = when (binding.spinnerSongStatusAdd.selectedItemPosition) {
+//            0 -> {
+//                SongStatus.Not_Started
+//            }
+//            1 -> {
+//                SongStatus.In_Progress
+//            }
+//            else -> {
+//                SongStatus.Learned
+//            }
+//        }
+//        val category = when (binding.spinnerSongStatusAdd.selectedItemPosition) {
+//            0 -> {
+//                SongCategory.Music
+//            }
+//            1 -> {
+//                SongCategory.Movie_Shows
+//            }
+//            2 -> {
+//                SongCategory.Game
+//            }
+//            else -> {
+//                SongCategory.Anime
+//            }
+//        }
 
         if (inputCheck(name, artist)) {
-            val song = Song(0, name, artist, status)
+            val song = Song(0, name, artist, status, category)
 
             viewModel.addSong(song)
 

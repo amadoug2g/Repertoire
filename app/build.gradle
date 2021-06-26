@@ -16,6 +16,16 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
     buildTypes {
@@ -91,8 +101,8 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:1.1.2"
 
     //Navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.0-alpha02'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.0-alpha02'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.0-alpha03'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.0-alpha03'
 
     //Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'

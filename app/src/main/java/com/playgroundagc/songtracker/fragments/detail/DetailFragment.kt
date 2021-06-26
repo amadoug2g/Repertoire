@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.ChangeBounds
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.playgroundagc.songtracker.R
+import com.playgroundagc.songtracker.data.SongCategory
 import com.playgroundagc.songtracker.data.SongStatus
 import com.playgroundagc.songtracker.databinding.FragmentDetailBinding
 import com.playgroundagc.songtracker.fragments.add.AddFragment
@@ -62,10 +63,10 @@ class DetailFragment : Fragment() {
             setCurrentSongDetail()
         }
 
-
         sharedElementEnterTransition = ChangeBounds().apply {
             duration = 300
         }
+
         sharedElementReturnTransition = ChangeBounds().apply {
             duration = 300
         }
@@ -107,25 +108,45 @@ class DetailFragment : Fragment() {
     }
 
     private fun loadStatusUpdateSpinner() {
-
-        val statusArray = arrayOf( "Not started", "In Progress", "Learned")
-
         binding.spinnerSongStatusUpdate.adapter =
-            ArrayAdapter(requireContext(), R.layout.simple_layout_file, statusArray)
+            ArrayAdapter(requireContext(), R.layout.simple_layout_file, SongStatus.values())
+        binding.spinnerSongCategoryUpdate.adapter =
+            ArrayAdapter(requireContext(), R.layout.simple_layout_file, SongCategory.values())
     }
 
     private fun setStatusSelect(song: Song) {
-        binding.spinnerSongStatusUpdate.setSelection(when (song.status) {
-            SongStatus.Not_Started -> {
-                0
+        binding.spinnerSongStatusUpdate.setSelection(
+            when (song.status) {
+                SongStatus.Not_Started -> {
+                    0
+                }
+                SongStatus.In_Progress -> {
+                    1
+                }
+                SongStatus.Learned -> {
+                    2
+                }
             }
-            SongStatus.In_Progress -> {
-                1
+        )
+    }
+
+    private fun setCategorySelect(song: Song) {
+        binding.spinnerSongCategoryUpdate.setSelection(
+            when (song.category) {
+                SongCategory.Music -> {
+                    0
+                }
+                SongCategory.Movie_Shows -> {
+                    1
+                }
+                SongCategory.Game -> {
+                    2
+                }
+                SongCategory.Anime -> {
+                    3
+                }
             }
-            SongStatus.Learned -> {
-                2
-            }
-        })
+        )
     }
     //endregion
 
@@ -136,6 +157,7 @@ class DetailFragment : Fragment() {
                 setCurrentSongUpdate()
                 loadStatusUpdateSpinner()
                 setStatusSelect(viewModel.currentSong.value!!)
+                setCategorySelect(viewModel.currentSong.value!!)
             }
             false -> {
                 setCurrentSongDetail()
@@ -146,20 +168,11 @@ class DetailFragment : Fragment() {
     private fun updateSong(song: Song) {
         val name = binding.songNameUpdate.text.toString()
         val artist = binding.songArtistUpdate.text.toString()
-        val status = when (binding.spinnerSongStatusUpdate.selectedItemPosition) {
-            0 -> {
-                SongStatus.Not_Started
-            }
-            1 -> {
-                SongStatus.In_Progress
-            }
-            else -> {
-                SongStatus.Learned
-            }
-        }
+        val status = binding.spinnerSongStatusUpdate.selectedItem as SongStatus
+        val category = binding.spinnerSongCategoryUpdate.selectedItem as SongCategory
 
         if (inputCheck(name, artist)) {
-            val updatedSong = Song(song.id, name, artist, status)
+            val updatedSong = Song(song.id, name, artist, status, category)
 
             viewModel.assignSong(updatedSong)
             viewModel.updateSong()
@@ -172,7 +185,7 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun inputCheck(name: String, artist: String) : Boolean {
+    private fun inputCheck(name: String, artist: String): Boolean {
         return !(TextUtils.isEmpty(name) && TextUtils.isEmpty(artist))
     }
     //endregion
@@ -193,9 +206,10 @@ class DetailFragment : Fragment() {
     }
 
     private fun deleteSong() {
+        val songName = viewModel.currentSong.value?.name ?: "Song"
         viewModel.deleteSong()
         requireActivity().onBackPressed()
-        toast("Song deleted successfully !")
+        toast("$songName deleted successfully !")
     }
     //endregion
 }

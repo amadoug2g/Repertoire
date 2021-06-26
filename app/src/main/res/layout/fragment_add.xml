@@ -53,6 +53,14 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp" />
 
+        <Spinner
+            android:id="@+id/spinner_song_category_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp" />
+
         <Button
             android:id="@+id/button_song_add"
             android:layout_width="match_parent"

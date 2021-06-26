@@ -53,6 +53,16 @@
                 android:layout_marginEnd="32dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:text="@{song.status.value.toString()}"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/song_category_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:text="@{song.category.value.toString()}"/>
         </LinearLayout>
 
         <LinearLayout android:layout_width="match_parent"
@@ -102,6 +112,14 @@
 
             <Spinner
                 android:id="@+id/spinner_song_status_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp" />
+
+            <Spinner
+                android:id="@+id/spinner_song_category_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"

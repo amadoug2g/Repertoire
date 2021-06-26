@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Song Tracker</string>
+    <string name="app_name">Repertoire</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="song_name_hint">Song Name</string>
@@ -21,4 +21,5 @@
     <string name="learned_tab">Learned</string>
     <string name="in_progress_tab">In Progress</string>
     <string name="not_started_tab">Not Started</string>
+    <string name="card_image_desc">card image</string>
 </resources>
