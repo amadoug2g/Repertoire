@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -9,65 +10,95 @@
             type="com.playgroundagc.songtracker.model.Song" />
     </data>
 
-    <LinearLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <LinearLayout
         android:id="@+id/song_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".fragments.detail.DetailFragment">
 
-        <LinearLayout android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <LinearLayout
             android:id="@+id/song_layout_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             tools:context=".fragments.detail.DetailFragment">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/song_name_detail"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="64dp"
-                android:layout_marginEnd="32dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textSize="28sp"
-                android:transitionName="name_transition_field"
-                android:text="@{song.name}"/>
+                android:layout_height="250dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/category_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="8dp"
+                    android:contentDescription="@string/card_image_desc"
+                    app:imageResource="@{song.imageCategory}"  />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/song_artist_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:transitionName="artist_transition_field"
-                android:text="@{song.artist}"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/song_status_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:text="@{song.status.value.toString()}"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/song_name_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                        android:textSize="28sp"
+                        android:transitionName="name_transition_field"
+                        android:text="@{song.name}"/>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/song_category_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:text="@{song.category.value.toString()}"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/song_artist_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:transitionName="artist_transition_field"
+                        android:text="@{song.artist}"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/song_status_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:text="@{song.status.value.toString()}"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/song_category_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:visibility="gone"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:text="@{song.category.value.toString()}"/>
+                </LinearLayout>
+            </LinearLayout>
+
+<!--            <androidx.fragment.app.FragmentContainerView-->
+<!--                android:id="@+id/youtube_fragment"-->
+<!--                android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"-->
+<!--                android:layout_gravity="bottom"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="200dp"/>-->
         </LinearLayout>
 
-        <LinearLayout android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <LinearLayout
             android:id="@+id/song_layout_update"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="gone"
             tools:context=".fragments.detail.DetailFragment">

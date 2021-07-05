@@ -2,27 +2,22 @@ package com.playgroundagc.songtracker.fragments.list
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionInflater
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
-import com.playgroundagc.songtracker.MainActivity
 import com.playgroundagc.songtracker.MainActivity.Companion.navController
 import com.playgroundagc.songtracker.R
-import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import com.playgroundagc.songtracker.databinding.FragmentListBinding
 import com.playgroundagc.songtracker.fragments.list.adapters.ListAdapter
+import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import kotlinx.coroutines.flow.collect
-import org.jetbrains.anko.support.v4.toast
 import timber.log.Timber
-import java.lang.Exception
 
 class ListFragment : Fragment() {
 
@@ -36,7 +31,7 @@ class ListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(SongViewModel::class.java)
-//        setHasOptionsMenu(true)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -50,32 +45,49 @@ class ListFragment : Fragment() {
             false
         )
 
+        binding.viewModel = viewModel
+
         binding.floatingActionButton.setOnClickListener {
             navController.navigate(R.id.listFragmentToAddFragment)
         }
-        setUpRecyclerViewNotStarted()
+
+        binding.songCount.okInfoBtn.setOnClickListener {
+            binding.songCount.songCountLayout.visibility = View.GONE
+        }
+
+        setUpRecyclerView(0)
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.position) {
-                    0 -> {
-                        setUpRecyclerViewNotStarted()
-                        viewModel.assignSelection(tab.position)
-                    }
-                    1 -> {
-                        setUpRecyclerViewInProgress()
-                        viewModel.assignSelection(tab.position)
-                    }
-                    2 -> {
-                        setUpRecyclerViewLearned()
-                        viewModel.assignSelection(tab.position)
-                    }
+
+                try {
+                    viewModel.assignTabSelected(tab!!.position)
+                } catch (e: Exception) {
+                    Timber.e("Error: $e")
                 }
+
+                setUpRecyclerView(tab!!.position)
+
+//                when (tab?.position) {
+//                    0 -> {
+//                        setUpRecyclerViewNotStarted()
+//                    }
+//                    1 -> {
+//                        setUpRecyclerViewInProgress()
+//                    }
+//                    2 -> {
+//                        setUpRecyclerViewLearned()
+//                    }
+//                }
             }
 
-            override fun onTabReselected(tab: TabLayout.Tab?) { }
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+//                binding.recyclerview.scrollToPosition(0)
+                binding.recyclerview.smoothScrollToPosition(0)
+//                binding.recyclerview.layoutManager?.scrollToPosition(0)
+            }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) { }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
         })
 
         sharedElementEnterTransition = ChangeBounds().apply {
@@ -96,11 +108,8 @@ class ListFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-//            R.id.song_sort_menu_btn -> {
-//                sortSongs()
-//            }
-            R.id.song_sort_order_menu_btn -> {
-                sortList()
+            R.id.song_info_menu_btn -> {
+                songInfo()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -115,17 +124,7 @@ class ListFragment : Fragment() {
             Timber.e("Error: $e")
         }
 
-        when (viewModel.tabSelect.value) {
-            0 -> {
-                setUpRecyclerViewNotStarted()
-            }
-            1 -> {
-                setUpRecyclerViewInProgress()
-            }
-            2 -> {
-                setUpRecyclerViewLearned()
-            }
-        }
+        setUpRecyclerView(viewModel.tabSelect.value)
     }
 
     override fun onStop() {
@@ -136,122 +135,49 @@ class ListFragment : Fragment() {
     }
     //endregion
 
-    //region Ascending / Descending
-    private fun sortList() {
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.position) {
-                    0 -> {
-                        setUpRecyclerViewNotStarted()
-                        toast("1")
-                    }
-                    1 -> {
-                        setUpRecyclerViewInProgress()
-                        toast("2")
-                    }
-                    2 -> {
-                        setUpRecyclerViewLearned()
-                        toast("3")
-                    }
-                }
-            }
+    //region Song Info
+    private fun songInfo() {
+        binding.songCount.songCountLayout.visibility = View.VISIBLE
 
-            override fun onTabReselected(tab: TabLayout.Tab?) { }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) { }
-        })
+        Timber.i("Not Started: ${viewModel.countNotStartedSongs.value}")
+        Timber.i("In Progress: ${viewModel.countInProgressSongs.value}")
+        Timber.i("Learned: ${viewModel.countLearnedSongs.value}")
     }
     //endregion
 
     //region RecyclerView
-    private fun setUpRecyclerViewNotStarted() {
-        val adapter = ListAdapter()
-        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        binding.recyclerview.adapter = adapter
-        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
+    private fun setUpRecyclerView(status: Int?) {
+        if (status != null) {
+            viewModel.assignTabSelected(status)
 
-//        try {
-//            viewModel.assignNotStartedSelect(!viewModel.notStartedSelect.value!!)
-//        } catch (e: Exception) {
-//            Timber.e("Error: $e")
-//        }
+            val adapter = ListAdapter()
+            adapter.stateRestorationPolicy =
+                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+            binding.recyclerview.adapter = adapter
+            binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-//        when (viewModel.notStartedSelect.value) {
-//            true -> {
-                lifecycleScope.launchWhenResumed {
-                    viewModel.readStatusNotStartedDataDESC.collect { value ->
-                        adapter.setData(value)
+            lifecycleScope.launchWhenResumed {
+                when (status) {
+                    0 -> {
+                        viewModel.readStatusNotStartedDataDESC.collect { value ->
+                            adapter.setData(value)
+                        }
+                    }
+                    1 -> {
+                        viewModel.readStatusInProgressDataDESC.collect { value ->
+                            adapter.setData(value)
+                        }
+                    }
+                    else -> {
+                        viewModel.readStatusLearnedDataDESC.collect { value ->
+                            adapter.setData(value)
+                        }
                     }
                 }
-//            }
-//            false -> {
-//                lifecycleScope.launchWhenResumed {
-//                    viewModel.readStatusNotStartedDataASC.collect { value ->
-//                        adapter.setData(value)
-//                    }
-//                }
-//            }
-//        }
-    }
-
-    private fun setUpRecyclerViewInProgress() {
-        val adapter = ListAdapter()
-        binding.recyclerview.adapter = adapter
-        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
-
-//        try {
-//            viewModel.assignInProgressSelect(!viewModel.inProgressSelect.value!!)
-//        } catch (e: Exception) {
-//            Timber.e("Error: $e")
-//        }
-
-//        when (viewModel.inProgressSelect.value) {
-//            true -> {
-                lifecycleScope.launchWhenResumed {
-                    viewModel.readStatusInProgressDataDESC.collect { value ->
-                        adapter.setData(value)
-                    }
-                }
-//            }
-//            false -> {
-//                lifecycleScope.launchWhenResumed {
-//                    viewModel.readStatusInProgressDataASC.collect { value ->
-//                        adapter.setData(value)
-//                    }
-//                }
-//            }
-//        }
-    }
-
-    private fun setUpRecyclerViewLearned() {
-        val adapter = ListAdapter()
-        binding.recyclerview.adapter = adapter
-        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
-
-//        try {
-//            viewModel.assignLearnedSelect(!viewModel.learnedSelect.value!!)
-//        } catch (e: Exception) {
-//            Timber.e("Error: $e")
-//        }
-//
-//        when (viewModel.learnedSelect.value) {
-//            true -> {
-                lifecycleScope.launchWhenResumed {
-                    viewModel.readStatusLearnedDataDESC.collect { value ->
-                        adapter.setData(value)
-                    }
-                }
-//            }
-//            false -> {
-//                lifecycleScope.launchWhenResumed {
-//                    viewModel.readStatusLearnedDataASC.collect { value ->
-//                        adapter.setData(value)
-//                    }
-//                }
-//            }
-//        }
+            }
+        } else {
+            Timber.e("Tab position is null")
+        }
     }
     //endregion
 }

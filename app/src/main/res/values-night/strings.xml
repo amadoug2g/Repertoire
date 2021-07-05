@@ -11,6 +11,7 @@
     <string name="delete_song_message">Delete this song?</string>
     <string name="cancel_message">Cancel</string>
     <string name="confirm_message">Yes</string>
+    <string name="ok_message">OK</string>
     <string name="update_btn_text">Update</string>
     <string name="cancel_btn_text">Cancel</string>
     <string name="sort_song">Sort</string>
@@ -18,4 +19,6 @@
     <string name="learned_tab">Learned</string>
     <string name="in_progress_tab">In Progress</string>
     <string name="not_started_tab">Not Started</string>
+    <string name="info">Info</string>
+    <string name="song_count_text">Song count</string>
 </resources>

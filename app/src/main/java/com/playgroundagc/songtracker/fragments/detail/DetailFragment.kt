@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
 import android.widget.ArrayAdapter
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.transition.ChangeBounds
@@ -15,10 +15,10 @@ import com.playgroundagc.songtracker.R
 import com.playgroundagc.songtracker.data.SongCategory
 import com.playgroundagc.songtracker.data.SongStatus
 import com.playgroundagc.songtracker.databinding.FragmentDetailBinding
-import com.playgroundagc.songtracker.fragments.add.AddFragment
 import com.playgroundagc.songtracker.model.Song
 import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import org.jetbrains.anko.support.v4.toast
+
 
 class DetailFragment : Fragment() {
     private val args by navArgs<DetailFragmentArgs>()
@@ -63,10 +63,10 @@ class DetailFragment : Fragment() {
             setCurrentSongDetail()
         }
 
+        //Navigation transition
         sharedElementEnterTransition = ChangeBounds().apply {
             duration = 300
         }
-
         sharedElementReturnTransition = ChangeBounds().apply {
             duration = 300
         }
@@ -92,7 +92,11 @@ class DetailFragment : Fragment() {
     }
     //endregion
 
+
     //region Song Detail Setup
+    /**
+     * Show detail layout & set current [Song] details
+     * */
     private fun setCurrentSongDetail() {
         setHasOptionsMenu(true)
         binding.songLayoutDetail.visibility = View.VISIBLE
@@ -101,6 +105,9 @@ class DetailFragment : Fragment() {
     //endregion
 
     //region Song Update Setup
+    /**
+     * Show update layout
+     * */
     private fun setCurrentSongUpdate() {
         setHasOptionsMenu(false)
         binding.songLayoutDetail.visibility = View.GONE

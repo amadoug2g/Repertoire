@@ -9,4 +9,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="logo_theme">#00a8ff</color>
+    <color name="colorTransparent">#88FFFFFF</color>
+    <color name="colorTransparentDiscreet">#88B9B9B9</color>
 </resources>

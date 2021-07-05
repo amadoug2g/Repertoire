@@ -8,24 +8,21 @@ import kotlinx.coroutines.flow.Flow
 /**
  * Created by Amadou on 07/06/2021, 17:42
  *
- * Song Tracker Repository
+ * [Song] Repository
  *
  */
 
 class SongRepository(private val songDao: SongDao) {
 
-    val readAllDataASC: Flow<List<Song>> = songDao.readAllDataASC()
-    val readAllDataByNameASC: Flow<List<Song>> = songDao.readAllDataByNameASC()
-    val readAllDataByStatusASC: Flow<List<Song>> = songDao.readAllDataByStatusASC()
-    val readAllDataDESC: Flow<List<Song>> = songDao.readAllDataDESC()
-    val readAllDataByNameDESC: Flow<List<Song>> = songDao.readAllDataByNameDESC()
-    val readAllDataByStatusDESC: Flow<List<Song>> = songDao.readAllDataByStatusDESC()
     val readStatusNotStartedDataASC: Flow<List<Song>> = songDao.readStatusDataASC(SongStatus.Not_Started)
     val readStatusInProgressDataASC: Flow<List<Song>> = songDao.readStatusDataASC(SongStatus.In_Progress)
     val readStatusLearnedDataASC: Flow<List<Song>> = songDao.readStatusDataASC(SongStatus.Learned)
     val readStatusNotStartedDataDESC: Flow<List<Song>> = songDao.readStatusDataDESC(SongStatus.Not_Started)
     val readStatusInProgressDataDESC: Flow<List<Song>> = songDao.readStatusDataDESC(SongStatus.In_Progress)
     val readStatusLearnedDataDESC: Flow<List<Song>> = songDao.readStatusDataDESC(SongStatus.Learned)
+//    val countNotStartedSongs: Int = songDao.countSongsByStatus(SongStatus.Not_Started)
+//    val countInProgressSongs: Int = songDao.countSongsByStatus(SongStatus.In_Progress)
+//    val countLearnedSongs: Int = songDao.countSongsByStatus(SongStatus.Learned)
 
     suspend fun addSong(song: Song){
         songDao.addSong(song)
@@ -41,5 +38,17 @@ class SongRepository(private val songDao: SongDao) {
 
     suspend fun deleteAllSongs() {
         songDao.deleteAllSongs()
+    }
+
+    fun countNotStartedSongs(): Int {
+        return songDao.countSongsByStatus(SongStatus.Not_Started)
+    }
+
+    fun countInProgressSongs(): Int {
+        return songDao.countSongsByStatus(SongStatus.In_Progress)
+    }
+
+    fun countLearnedSongs(): Int {
+        return songDao.countSongsByStatus(SongStatus.Learned)
     }
 }

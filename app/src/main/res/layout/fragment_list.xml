@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.playgroundagc.songtracker.viewmodel.SongViewModel" />
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -69,6 +75,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:contentDescription="@string/add_song_fab" />
+
+        <include
+            android:id="@+id/song_count"
+            app:viewModel="@{viewModel}"
+            layout="@layout/song_count_cardview"/>
 
     </RelativeLayout>
 </layout>

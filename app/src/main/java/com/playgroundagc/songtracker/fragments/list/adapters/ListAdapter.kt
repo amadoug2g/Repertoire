@@ -1,23 +1,12 @@
 package com.playgroundagc.songtracker.fragments.list.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.findFragment
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionInflater
 import com.playgroundagc.songtracker.MainActivity.Companion.navController
-import com.playgroundagc.songtracker.R
-import com.playgroundagc.songtracker.data.SongCategory
-import com.playgroundagc.songtracker.data.SongStatus
-import com.playgroundagc.songtracker.model.Song
 import com.playgroundagc.songtracker.databinding.SongCardviewBinding
 import com.playgroundagc.songtracker.fragments.list.ListFragmentDirections
-import timber.log.Timber
-import java.lang.Exception
+import com.playgroundagc.songtracker.model.Song
 
 /**
  * Created by Amadou on 08/06/2021, 22:10
@@ -54,15 +43,6 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
             with(binding) {
                 binding.song = song
             }
-
-            binding.categoryImage.setImageResource(
-                when (song.category) {
-                    SongCategory.Music -> R.drawable.loudspeaker_icon
-                    SongCategory.Movie_Shows -> R.drawable.video_camera_icon
-                    SongCategory.Game -> R.drawable.game_console_icon
-                    SongCategory.Anime -> R.mipmap.repertoire_logo
-                }
-            )
 
             binding.songCardView.setOnClickListener {
                 val action = ListFragmentDirections.listFragmentToDetailFragment(song)

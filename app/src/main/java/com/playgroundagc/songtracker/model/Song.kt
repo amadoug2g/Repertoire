@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 /**
  * Created by Amadou on 07/06/2021, 17:25
  *
- * Song Class File
+ * [Song] Class File
  *
  */
 
@@ -31,9 +31,10 @@ data class Song(
                 SongCategory.Music -> R.drawable.loudspeaker_icon
                 SongCategory.Movie_Shows -> R.drawable.video_camera_icon
                 SongCategory.Game -> R.drawable.game_console_icon
-                SongCategory.Anime -> R.mipmap.repertoire_logo
+                SongCategory.Anime -> R.drawable.ninja
             }
         }
+
 }
 
 

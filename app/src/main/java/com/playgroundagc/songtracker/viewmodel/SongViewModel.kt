@@ -16,36 +16,39 @@ import kotlinx.coroutines.launch
 /**
  * Created by Amadou on 07/06/2021, 17:44
  *
- * Song ViewModel File
+ * [Song] ViewModel
  *
  */
 
 class SongViewModel(application: Application): AndroidViewModel(application) {
 
     //region Variables
-//    val readAllDataASC: Flow<List<Song>>
-//    val readAllDataByNameASC: Flow<List<Song>>
-//    val readAllDataDESC: Flow<List<Song>>
-//    val readAllDataByNameDESC: Flow<List<Song>>
-//    val readAllDataByStatusDESC: Flow<List<Song>>
-//    val readAllDataByStatusASC: Flow<List<Song>>
-    val readStatusNotStartedDataASC: Flow<List<Song>>
+    private val readStatusNotStartedDataASC: Flow<List<Song>>
     val readStatusNotStartedDataDESC: Flow<List<Song>>
-    val readStatusInProgressDataASC: Flow<List<Song>>
+    private val readStatusInProgressDataASC: Flow<List<Song>>
     val readStatusInProgressDataDESC: Flow<List<Song>>
-    val readStatusLearnedDataASC: Flow<List<Song>>
+    private val readStatusLearnedDataASC: Flow<List<Song>>
     val readStatusLearnedDataDESC: Flow<List<Song>>
     private val repository: SongRepository
 
+//    val countNotStartedSongs: Int
+//    val countInProgressSongs: Int
+//    val countLearnedSongs: Int
+
+
+    private val _countNotStartedSongs = MutableLiveData<Int>()
+    val countNotStartedSongs : LiveData<Int> = _countNotStartedSongs
+
+    private val _countInProgressSongs = MutableLiveData<Int>()
+    val countInProgressSongs : LiveData<Int> = _countInProgressSongs
+
+    private val _countLearnedSongs = MutableLiveData<Int>()
+    val countLearnedSongs : LiveData<Int> = _countLearnedSongs
+
     private val _currentSong = SingleLiveEvent<Song>()
-    val currentSong : LiveData<Song>
-        get() = _currentSong
+    val currentSong : LiveData<Song> = _currentSong
 
     val tabSelect = MutableLiveData(0)
-    val alphaSelect = MutableLiveData(true)
-    val notStartedSelect = MutableLiveData(true)
-    val inProgressSelect = MutableLiveData(true)
-    val learnedSelect = MutableLiveData(true)
     //endregion
 
     init {
@@ -57,31 +60,25 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
         readStatusNotStartedDataDESC = repository.readStatusNotStartedDataDESC
         readStatusInProgressDataDESC = repository.readStatusInProgressDataDESC
         readStatusLearnedDataDESC = repository.readStatusLearnedDataDESC
+
+        countNotStartedSongs()
+        countInProgressSongs()
+        countLearnedSongs()
     }
 
     //region LiveData Assignments
+    /**
+     * Keeps track of current [Song] for Details & Update Pages
+     * */
     fun assignSong(currentSong: Song) {
         _currentSong.value = currentSong
     }
 
-    fun assignSelection(int: Int) {
+    /**
+     * Keeps track of current tab
+     * */
+    fun assignTabSelected(int: Int) {
         tabSelect.value = int
-    }
-
-    fun assignAlphaSelect(value: Boolean) {
-        alphaSelect.value = value
-    }
-
-    fun assignNotStartedSelect(value: Boolean) {
-        notStartedSelect.value = value
-    }
-
-    fun assignInProgressSelect(value: Boolean) {
-        inProgressSelect.value = value
-    }
-
-    fun assignLearnedSelect(value: Boolean) {
-        learnedSelect.value = value
     }
     //endregion
 
@@ -107,6 +104,24 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
     fun deleteAllSongs() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllSongs()
+        }
+    }
+
+    private fun countNotStartedSongs() {
+        viewModelScope.launch(Dispatchers.Default) {
+            _countNotStartedSongs.postValue(repository.countNotStartedSongs())
+        }
+    }
+
+    private fun countInProgressSongs() {
+        viewModelScope.launch(Dispatchers.Default) {
+            _countInProgressSongs.postValue(repository.countInProgressSongs())
+        }
+    }
+
+    private fun countLearnedSongs() {
+        viewModelScope.launch(Dispatchers.Default) {
+            _countLearnedSongs.postValue(repository.countLearnedSongs())
         }
     }
     //endregion

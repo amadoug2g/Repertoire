@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.playgroundagc.songtracker.viewmodel.SongViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/song_count_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTransparentDiscreet"
+        android:clickable="false"
+        android:visibility="gone"
+        android:focusable="false">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/info_text_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp">
+
+                    <TextView
+                        android:id="@+id/textView_count_title"
+                        style="@style/TextAppearance.AppCompat.Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/song_count_text"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/textView_not_started_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textView_count_title"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="8dp"
+                        android:drawablePadding="4dp"
+                        android:padding="2dp"
+                        android:orientation="horizontal">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textView_not_started_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.AppCompat.Medium"
+                            android:drawableStart="@drawable/ic_not_started"
+                            android:text="@string/not_started_tab"/>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textView_not_started_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.AppCompat.Medium"
+                            android:text="@{`: ` + viewModel.countNotStartedSongs}"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/textView_in_progress_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textView_not_started_layout"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="8dp"
+                        android:drawablePadding="4dp"
+                        android:padding="2dp"
+                        android:orientation="horizontal">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textView_in_progress_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.AppCompat.Medium"
+                            android:drawableStart="@drawable/ic_in_progress"
+                            android:text="@string/in_progress_tab"/>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textView_in_progress_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.AppCompat.Medium"
+                            android:text="@{`: ` + viewModel.countInProgressSongs}"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/textView_learned_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textView_in_progress_layout"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="8dp"
+                        android:drawablePadding="4dp"
+                        android:padding="2dp"
+                        android:orientation="horizontal">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textView_learned_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.AppCompat.Medium"
+                            android:drawableStart="@drawable/ic_learned"
+                            android:text="@string/learned_tab"/>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/textView_learned_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.AppCompat.Medium"
+                            android:text="@{`: ` + viewModel.countLearnedSongs}"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ok_info_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="64dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/ok_message" />
+            </LinearLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
+
+</layout>
