@@ -1,6 +1,7 @@
 package com.playgroundagc.songtracker.fragments.detail
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
@@ -12,13 +13,13 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.ChangeBounds
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.playgroundagc.songtracker.R
+import com.playgroundagc.songtracker.VideoActivity
 import com.playgroundagc.songtracker.data.SongCategory
 import com.playgroundagc.songtracker.data.SongStatus
 import com.playgroundagc.songtracker.databinding.FragmentDetailBinding
 import com.playgroundagc.songtracker.model.Song
 import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import org.jetbrains.anko.support.v4.toast
-
 
 class DetailFragment : Fragment() {
     private val args by navArgs<DetailFragmentArgs>()
@@ -81,6 +82,9 @@ class DetailFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.song_play_menu_btn -> {
+                navigate()
+            }
             R.id.song_update_menu_btn -> {
                 updateCheck(true)
             }
@@ -91,7 +95,6 @@ class DetailFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
     //endregion
-
 
     //region Song Detail Setup
     /**
@@ -157,6 +160,42 @@ class DetailFragment : Fragment() {
     }
     //endregion
 
+    //region Play Option
+    private fun navigate() {
+        val intent = Intent(requireContext(), VideoActivity::class.java)
+        intent.putExtra("videoID", intentSong())
+        startActivity(intent)
+    }
+
+    private fun intentSong(): String {
+        return when (viewModel.currentSong.value?.name) {
+            "Mariage d'amour" -> {
+                "O1EYacuAwMQ"
+            }
+            "Il Vento d'Oro" -> {
+                "UMiW3G1USHg"
+            }
+            "Prelude in C" -> {
+                "https://www.youtube.com/watch?v=frxT2qB1POQ&list=PL5xsjcJ2WpmV5UUnmpubRfZ3UhblXbEgx&index=2"
+            }
+            "changes" -> {
+                "https://www.youtube.com/watch?v=NO8KIx8wsec&list="
+            }
+            else -> {
+                "nothing"
+            }
+        }
+    }
+
+    private fun String.getVideoID(): String {
+        return if (this.length > 43)
+            this.removePrefix(this.substringBefore("=")).removePrefix("=")
+                .removeSuffix(this.substringAfter("&")).removeSuffix("&")
+        else
+            this.removePrefix("https://www.youtube.com/watch?v=")
+    }
+    //endregion
+
     //region Update Option
     private fun updateCheck(updating: Boolean) {
         when (updating) {
@@ -218,5 +257,6 @@ class DetailFragment : Fragment() {
         requireActivity().onBackPressed()
         toast("$songName deleted successfully !")
     }
+
     //endregion
 }

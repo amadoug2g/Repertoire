@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.playgroundagc.songtracker.R
 import com.playgroundagc.songtracker.data.SongCategory
-import com.playgroundagc.songtracker.model.Song
 import com.playgroundagc.songtracker.data.SongStatus
-import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import com.playgroundagc.songtracker.databinding.FragmentAddBinding
+import com.playgroundagc.songtracker.model.Song
+import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import org.jetbrains.anko.support.v4.toast
 
 class AddFragment : Fragment() {
@@ -54,9 +54,6 @@ class AddFragment : Fragment() {
 
     //region Spinner Setups
     private fun setupStatusSpinner() {
-        val statusArray = arrayOf( "Not started", "In Progress", "Learned")
-        val categoryArray = arrayOf( "Music", "Movie / TV Shows", "Game", "Anime")
-
         binding.spinnerSongStatusAdd.adapter =
             ArrayAdapter(requireContext(), R.layout.simple_layout_file, SongStatus.values())
 
@@ -70,7 +67,7 @@ class AddFragment : Fragment() {
         val name = binding.songNameInputAdd.text.toString()
         val artist = binding.songArtistInputAdd.text.toString()
         val status = binding.spinnerSongStatusAdd.selectedItem as SongStatus
-        val category = binding.spinnerSongStatusAdd.selectedItem as SongCategory
+        val category = binding.spinnerSongCategoryAdd.selectedItem as SongCategory
 
 //        val status = when (binding.spinnerSongStatusAdd.selectedItemPosition) {
 //            0 -> {

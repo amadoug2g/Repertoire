@@ -47,7 +47,6 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
             binding.songCardView.setOnClickListener {
                 val action = ListFragmentDirections.listFragmentToDetailFragment(song)
                 navController.navigate(action)
-
             }
         }
 

@@ -21,4 +21,5 @@
     <string name="not_started_tab">Not Started</string>
     <string name="info">Info</string>
     <string name="song_count_text">Song count</string>
+    <string name="play_video">Play video</string>
 </resources>

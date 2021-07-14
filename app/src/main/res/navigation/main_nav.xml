@@ -31,5 +31,13 @@
         <argument
             android:name="currentSong"
             app:argType="com.playgroundagc.songtracker.model.Song" />
+        <action
+            android:id="@+id/detailFragmentToVideoFragment"
+            app:destination="@id/videoFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/videoFragment"
+        android:name="com.playgroundagc.songtracker.fragments.VideoFragment"
+        android:label="fragment_video"
+        tools:layout="@layout/fragment_video" />
 </navigation>

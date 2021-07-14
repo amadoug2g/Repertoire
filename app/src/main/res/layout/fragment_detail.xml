@@ -86,13 +86,6 @@
                         android:text="@{song.category.value.toString()}"/>
                 </LinearLayout>
             </LinearLayout>
-
-<!--            <androidx.fragment.app.FragmentContainerView-->
-<!--                android:id="@+id/youtube_fragment"-->
-<!--                android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"-->
-<!--                android:layout_gravity="bottom"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="200dp"/>-->
         </LinearLayout>
 
         <LinearLayout
