@@ -1,7 +1,8 @@
-package com.playgroundagc.songtracker.data
+package com.playgroundagc.songtracker.data.local
 
 import androidx.room.*
 import com.playgroundagc.songtracker.model.Song
+import com.playgroundagc.songtracker.model.SongStatus
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -14,8 +15,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface SongDao {
     /**
-    * Adding a [Song] to the database. If it already exists, ignore it.
-    * */
+     * Adding a [Song] to the database. If it already exists, ignore it.
+     * */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addSong(song: Song)
 
@@ -38,6 +39,12 @@ interface SongDao {
     suspend fun deleteAllSongs()
 
     /**
+     * Returns every [Song] from the database
+     * */
+    @Query("SELECT * FROM song_data ORDER BY id ASC")
+    fun readAllSongs(): Flow<List<Song>>
+
+    /**
      * Returns every [Song] from the database, sorted in ascending order & filtered by [SongStatus]
      * */
     @Query("SELECT * FROM song_data WHERE status = :status ORDER BY id ASC")
@@ -49,7 +56,9 @@ interface SongDao {
     @Query("SELECT * FROM song_data WHERE status = :status ORDER BY id DESC")
     fun readStatusDataDESC(status: SongStatus): Flow<List<Song>>
 
-
+    /**
+     * Returns [Song]s count from the database, filtered by [SongStatus]
+     * */
     @Query("SELECT COUNT(*) FROM song_data WHERE status = :status")
     fun countSongsByStatus(status: SongStatus): Int
 }

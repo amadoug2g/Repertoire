@@ -10,8 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.playgroundagc.songtracker.R
-import com.playgroundagc.songtracker.data.SongCategory
-import com.playgroundagc.songtracker.data.SongStatus
+import com.playgroundagc.songtracker.model.SongCategory
+import com.playgroundagc.songtracker.model.SongStatus
 import com.playgroundagc.songtracker.databinding.FragmentAddBinding
 import com.playgroundagc.songtracker.model.Song
 import com.playgroundagc.songtracker.viewmodel.SongViewModel

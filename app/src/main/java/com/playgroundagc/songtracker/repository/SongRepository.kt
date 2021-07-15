@@ -1,8 +1,8 @@
 package com.playgroundagc.songtracker.repository
 
-import com.playgroundagc.songtracker.data.SongDao
-import com.playgroundagc.songtracker.data.SongStatus
+import com.playgroundagc.songtracker.data.local.SongDao
 import com.playgroundagc.songtracker.model.Song
+import com.playgroundagc.songtracker.model.SongStatus
 import kotlinx.coroutines.flow.Flow
 
 /**

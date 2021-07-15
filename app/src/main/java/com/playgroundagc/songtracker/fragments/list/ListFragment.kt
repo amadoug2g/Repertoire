@@ -1,6 +1,7 @@
 package com.playgroundagc.songtracker.fragments.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import com.playgroundagc.songtracker.databinding.FragmentListBinding
 import com.playgroundagc.songtracker.fragments.list.adapters.ListAdapter
 import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import kotlinx.coroutines.flow.collect
+import org.jetbrains.anko.support.v4.toast
 import timber.log.Timber
 
 class ListFragment : Fragment() {
@@ -57,6 +59,11 @@ class ListFragment : Fragment() {
 
         setUpRecyclerView(0)
 
+        viewModel.tabSelect.observe(viewLifecycleOwner, { tab ->
+//            setUpRecyclerView(tab)
+            Log.i("LIST","TAB: $tab")
+        })
+
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
 
@@ -67,24 +74,10 @@ class ListFragment : Fragment() {
                 }
 
                 setUpRecyclerView(tab!!.position)
-
-//                when (tab?.position) {
-//                    0 -> {
-//                        setUpRecyclerViewNotStarted()
-//                    }
-//                    1 -> {
-//                        setUpRecyclerViewInProgress()
-//                    }
-//                    2 -> {
-//                        setUpRecyclerViewLearned()
-//                    }
-//                }
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-//                binding.recyclerview.scrollToPosition(0)
                 binding.recyclerview.smoothScrollToPosition(0)
-//                binding.recyclerview.layoutManager?.scrollToPosition(0)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
@@ -99,7 +92,6 @@ class ListFragment : Fragment() {
 
         return binding.root
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.song_list_menu, menu)
@@ -122,6 +114,7 @@ class ListFragment : Fragment() {
             binding.tabLayout.getTabAt(viewModel.tabSelect.value!!)?.select()
         } catch (e: Exception) {
             Timber.e("Error: $e")
+            Log.e("LIST", "Error: ${viewModel.tabSelect.value}")
         }
 
         setUpRecyclerView(viewModel.tabSelect.value)
@@ -138,10 +131,6 @@ class ListFragment : Fragment() {
     //region Song Info
     private fun songInfo() {
         binding.songCount.songCountLayout.visibility = View.VISIBLE
-
-        Timber.i("Not Started: ${viewModel.countNotStartedSongs.value}")
-        Timber.i("In Progress: ${viewModel.countInProgressSongs.value}")
-        Timber.i("Learned: ${viewModel.countLearnedSongs.value}")
     }
     //endregion
 
@@ -155,6 +144,8 @@ class ListFragment : Fragment() {
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
             binding.recyclerview.adapter = adapter
             binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
+
+            toast("Tab nb is $status")
 
             lifecycleScope.launchWhenResumed {
                 when (status) {

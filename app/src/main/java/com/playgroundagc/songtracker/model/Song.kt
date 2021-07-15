@@ -4,8 +4,6 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.playgroundagc.songtracker.R
-import com.playgroundagc.songtracker.data.SongCategory
-import com.playgroundagc.songtracker.data.SongStatus
 import kotlinx.parcelize.Parcelize
 
 /**

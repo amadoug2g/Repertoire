@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.playgroundagc.songtracker.data.SongDatabase
+import com.playgroundagc.songtracker.data.local.SongDatabase
 import com.playgroundagc.songtracker.model.Song
 import com.playgroundagc.songtracker.repository.SongRepository
 import com.playgroundagc.songtracker.util.SingleLiveEvent

@@ -1,4 +1,4 @@
-package com.playgroundagc.songtracker.data
+package com.playgroundagc.songtracker.model
 
 import com.playgroundagc.songtracker.R
 

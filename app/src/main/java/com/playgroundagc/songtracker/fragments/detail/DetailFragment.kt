@@ -14,8 +14,8 @@ import androidx.transition.ChangeBounds
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.playgroundagc.songtracker.R
 import com.playgroundagc.songtracker.VideoActivity
-import com.playgroundagc.songtracker.data.SongCategory
-import com.playgroundagc.songtracker.data.SongStatus
+import com.playgroundagc.songtracker.model.SongCategory
+import com.playgroundagc.songtracker.model.SongStatus
 import com.playgroundagc.songtracker.databinding.FragmentDetailBinding
 import com.playgroundagc.songtracker.model.Song
 import com.playgroundagc.songtracker.viewmodel.SongViewModel
@@ -185,14 +185,6 @@ class DetailFragment : Fragment() {
                 "nothing"
             }
         }
-    }
-
-    private fun String.getVideoID(): String {
-        return if (this.length > 43)
-            this.removePrefix(this.substringBefore("=")).removePrefix("=")
-                .removeSuffix(this.substringAfter("&")).removeSuffix("&")
-        else
-            this.removePrefix("https://www.youtube.com/watch?v=")
     }
     //endregion
 
