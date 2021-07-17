@@ -1,4 +1,4 @@
-package com.playgroundagc.songtracker
+package com.playgroundagc.songtracker.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
@@ -7,6 +7,7 @@ import androidx.databinding.library.BuildConfig
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
+import com.playgroundagc.songtracker.R
 import com.playgroundagc.songtracker.databinding.ActivityVideoBinding
 import com.playgroundagc.songtracker.util.Authentication
 import org.jetbrains.anko.toast

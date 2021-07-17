@@ -21,8 +21,9 @@ data class Song(
     var name: String,
     var artist: String,
     var status: SongStatus,
-    var category: SongCategory
-): Parcelable {
+    var category: SongCategory,
+    var link: String = "UMiW3G1USHg"
+) : Parcelable {
     val imageCategory: Int
         get() {
             return when (category) {

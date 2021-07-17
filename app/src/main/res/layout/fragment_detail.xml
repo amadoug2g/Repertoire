@@ -26,15 +26,36 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <ImageView
-                    android:id="@+id/category_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_margin="8dp"
-                    android:contentDescription="@string/card_image_desc"
-                    app:imageResource="@{song.imageCategory}"  />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/category_image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:contentDescription="@string/card_image_desc"
+                        app:imageResource="@{song.imageCategory}"  />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/song_category_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:text="@{song.category.value.toString()}"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -57,7 +78,7 @@
                         android:id="@+id/song_artist_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginStart="32dp"
                         android:layout_marginEnd="32dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -68,24 +89,19 @@
                         android:id="@+id/song_status_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginStart="32dp"
                         android:layout_marginEnd="32dp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:text="@{song.status.value.toString()}"/>
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/song_category_detail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="32dp"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginEnd="32dp"
-                        android:visibility="gone"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:text="@{song.category.value.toString()}"/>
                 </LinearLayout>
             </LinearLayout>
+            <FrameLayout
+                android:id="@+id/youtube_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="24dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -102,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="128dp"
+                android:layout_marginTop="64dp"
                 android:layout_marginEnd="32dp"
                 android:hint="@string/song_name_hint">
 
@@ -130,6 +146,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@={song.artist}"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/song_link_layout_update"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:hint="@string/song_link_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/song_link_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={song.link}"
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>

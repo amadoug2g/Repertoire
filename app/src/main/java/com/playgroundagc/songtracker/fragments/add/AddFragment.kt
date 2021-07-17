@@ -10,10 +10,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.playgroundagc.songtracker.R
-import com.playgroundagc.songtracker.model.SongCategory
-import com.playgroundagc.songtracker.model.SongStatus
 import com.playgroundagc.songtracker.databinding.FragmentAddBinding
 import com.playgroundagc.songtracker.model.Song
+import com.playgroundagc.songtracker.model.SongCategory
+import com.playgroundagc.songtracker.model.SongStatus
 import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import org.jetbrains.anko.support.v4.toast
 
@@ -68,41 +68,15 @@ class AddFragment : Fragment() {
         val artist = binding.songArtistInputAdd.text.toString()
         val status = binding.spinnerSongStatusAdd.selectedItem as SongStatus
         val category = binding.spinnerSongCategoryAdd.selectedItem as SongCategory
-
-//        val status = when (binding.spinnerSongStatusAdd.selectedItemPosition) {
-//            0 -> {
-//                SongStatus.Not_Started
-//            }
-//            1 -> {
-//                SongStatus.In_Progress
-//            }
-//            else -> {
-//                SongStatus.Learned
-//            }
-//        }
-//        val category = when (binding.spinnerSongStatusAdd.selectedItemPosition) {
-//            0 -> {
-//                SongCategory.Music
-//            }
-//            1 -> {
-//                SongCategory.Movie_Shows
-//            }
-//            2 -> {
-//                SongCategory.Game
-//            }
-//            else -> {
-//                SongCategory.Anime
-//            }
-//        }
+        val link = binding.songLinkInputAdd.text.toString()
 
         if (inputCheck(name, artist)) {
-            val song = Song(0, name, artist, status, category)
+            val song = Song(0, name, artist, status, category, link)
 
             viewModel.addSong(song)
 
             toast("${song.name} added")
 
-//            findNavController().navigate(R.id.addFragmentToListFragment)
             requireActivity().onBackPressed()
         } else {
             toast("Fill all fields first!")

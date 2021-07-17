@@ -3,7 +3,7 @@ package com.playgroundagc.songtracker.fragments.list.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.playgroundagc.songtracker.MainActivity.Companion.navController
+import com.playgroundagc.songtracker.activities.MainActivity.Companion.navController
 import com.playgroundagc.songtracker.databinding.SongCardviewBinding
 import com.playgroundagc.songtracker.fragments.list.ListFragmentDirections
 import com.playgroundagc.songtracker.model.Song

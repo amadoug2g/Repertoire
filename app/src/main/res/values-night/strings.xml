@@ -22,4 +22,6 @@
     <string name="info">Info</string>
     <string name="song_count_text">Song count</string>
     <string name="play_video">Play video</string>
+    <string name="song_link_hint">Link</string>
+    <string name="play_video_fullscreen">Watch fullscreen</string>
 </resources>

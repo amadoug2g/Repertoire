@@ -4,7 +4,7 @@
     <item
         android:id="@+id/song_play_menu_btn"
         android:icon="@drawable/ic_play_circle"
-        android:title="@string/play_video"
+        android:title="@string/play_video_fullscreen"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/song_delete_menu_btn"

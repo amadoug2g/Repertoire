@@ -4,36 +4,45 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.navArgs
 import androidx.transition.ChangeBounds
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubePlayer
+import com.google.android.youtube.player.YouTubePlayerFragment
+import com.google.android.youtube.player.YouTubePlayerSupportFragment
 import com.playgroundagc.songtracker.R
-import com.playgroundagc.songtracker.VideoActivity
-import com.playgroundagc.songtracker.model.SongCategory
-import com.playgroundagc.songtracker.model.SongStatus
+import com.playgroundagc.songtracker.activities.MainActivity
+import com.playgroundagc.songtracker.activities.VideoActivity
 import com.playgroundagc.songtracker.databinding.FragmentDetailBinding
 import com.playgroundagc.songtracker.model.Song
+import com.playgroundagc.songtracker.model.SongCategory
+import com.playgroundagc.songtracker.model.SongStatus
+import com.playgroundagc.songtracker.util.Authentication
 import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.toast
+
 
 class DetailFragment : Fragment() {
     private val args by navArgs<DetailFragmentArgs>()
 
     companion object {
         private lateinit var binding: FragmentDetailBinding
-        private lateinit var viewModel: SongViewModel
+        private var viewModel: SongViewModel = MainActivity.viewModel
     }
 
     //region Override Methods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(SongViewModel::class.java)
+//        viewModel = ViewModelProvider(this).get(SongViewModel::class.java)
         setHasOptionsMenu(true)
 
         viewModel.assignSong(args.currentSong)
@@ -55,6 +64,7 @@ class DetailFragment : Fragment() {
         })
 
         setCurrentSongDetail()
+        assignTab()
 
         binding.buttonSongUpdate.setOnClickListener {
             updateSong(viewModel.currentSong.value!!)
@@ -64,13 +74,50 @@ class DetailFragment : Fragment() {
             setCurrentSongDetail()
         }
 
-        //Navigation transition
+        //region Navigation transition
         sharedElementEnterTransition = ChangeBounds().apply {
             duration = 300
         }
         sharedElementReturnTransition = ChangeBounds().apply {
             duration = 300
         }
+        //endregion
+
+        //region Youtube Player
+        val youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance()
+
+        val transaction = requireFragmentManager().beginTransaction()
+        transaction.replace(R.id.youtube_fragment, youTubePlayerFragment)
+        transaction.commit()
+
+        youTubePlayerFragment.initialize(
+            Authentication.API_KEY,
+            object : YouTubePlayer.OnInitializedListener {
+
+                override fun onInitializationSuccess(
+                    provider: YouTubePlayer.Provider?,
+                    player: YouTubePlayer?,
+                    wasRestored: Boolean
+                ) {
+                    if (!wasRestored && player != null) {
+                        player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT)
+                        player.setFullscreen(false)
+                        player.cueVideo(getVideoID())
+                        player.setShowFullscreenButton(false)
+//                        player.setOnFullscreenListener {
+//                            navigate()
+//                        }
+                    }
+                }
+
+                override fun onInitializationFailure(
+                    provider: YouTubePlayer.Provider?,
+                    error: YouTubeInitializationResult?
+                ) {
+                    toast("Error: $error")
+                }
+            })
+        //endregion
 
         return binding.root
     }
@@ -104,6 +151,22 @@ class DetailFragment : Fragment() {
         setHasOptionsMenu(true)
         binding.songLayoutDetail.visibility = View.VISIBLE
         binding.songLayoutUpdate.visibility = View.GONE
+    }
+
+    private fun assignTab() {
+        val tabSelected = when (viewModel.currentSong.value?.status) {
+            SongStatus.Not_Started -> {
+                0
+            }
+            SongStatus.In_Progress -> {
+                1
+            }
+            else -> {
+                2
+            }
+        }
+
+        viewModel.assignTabSelected(tabSelected)
     }
     //endregion
 
@@ -160,7 +223,7 @@ class DetailFragment : Fragment() {
     }
     //endregion
 
-    //region Play Option
+    //region Youtube Player
     private fun navigate() {
         val intent = Intent(requireContext(), VideoActivity::class.java)
         intent.putExtra("videoID", intentSong())
@@ -186,6 +249,39 @@ class DetailFragment : Fragment() {
             }
         }
     }
+
+    private fun getVideoID(): String {
+        val videoID = viewModel.currentSong.value?.link
+
+        return if (videoID != null) {
+            when (videoID.length) {
+                0 -> {
+                    ""
+                }
+                11 -> {
+                    videoID
+                }
+                else -> {
+                    videoID.getVideoID()
+                }
+            }
+        } else {
+            ""
+        }
+    }
+
+    private fun String.getVideoID(): String {
+        return when {
+            this.length > 43 -> {
+                this.removePrefix(this.substringBefore("=")).removePrefix("=")
+                    .removeSuffix(this.substringAfter("&")).removeSuffix("&")
+            }
+            this.length == 28 -> {
+                this.removePrefix(this.substringBeforeLast("/")).removePrefix("/")
+            }
+            else -> this.removePrefix(this.substringBefore("=")).removePrefix("=")
+        }
+    }
     //endregion
 
     //region Update Option
@@ -208,9 +304,10 @@ class DetailFragment : Fragment() {
         val artist = binding.songArtistUpdate.text.toString()
         val status = binding.spinnerSongStatusUpdate.selectedItem as SongStatus
         val category = binding.spinnerSongCategoryUpdate.selectedItem as SongCategory
+        val link = binding.songLinkUpdate.text.toString()
 
         if (inputCheck(name, artist)) {
-            val updatedSong = Song(song.id, name, artist, status, category)
+            val updatedSong = Song(song.id, name, artist, status, category, link)
 
             viewModel.assignSong(updatedSong)
             viewModel.updateSong()
@@ -249,6 +346,5 @@ class DetailFragment : Fragment() {
         requireActivity().onBackPressed()
         toast("$songName deleted successfully !")
     }
-
     //endregion
 }
