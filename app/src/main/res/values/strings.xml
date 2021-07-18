@@ -28,4 +28,7 @@
     <string name="play_video">Play video</string>
     <string name="song_link_hint">Link</string>
     <string name="play_video_fullscreen">Watch fullscreen</string>
+    <string name="copy_songs_text">Copy songs</string>
+    <string name="item_empty_link_text">This item has no link</string>
+    <string name="add_a_link_text">Add a link</string>
 </resources>

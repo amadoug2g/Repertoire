@@ -41,7 +41,7 @@ interface SongDao {
     /**
      * Returns every [Song] from the database
      * */
-    @Query("SELECT * FROM song_data ORDER BY id ASC")
+    @Query("SELECT * FROM song_data ORDER BY status DESC, id DESC")
     fun readAllSongs(): Flow<List<Song>>
 
     /**
@@ -57,7 +57,7 @@ interface SongDao {
     fun readStatusDataDESC(status: SongStatus): Flow<List<Song>>
 
     /**
-     * Returns [Song]s count from the database, filtered by [SongStatus]
+     * Returns [Song] count from the database, filtered by [SongStatus]
      * */
     @Query("SELECT COUNT(*) FROM song_data WHERE status = :status")
     fun countSongsByStatus(status: SongStatus): Int

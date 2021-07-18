@@ -1,5 +1,6 @@
 package com.playgroundagc.songtracker.fragments.list
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -15,9 +16,13 @@ import com.playgroundagc.songtracker.R
 import com.playgroundagc.songtracker.activities.MainActivity
 import com.playgroundagc.songtracker.activities.MainActivity.Companion.navController
 import com.playgroundagc.songtracker.databinding.FragmentListBinding
+import com.playgroundagc.songtracker.extension.copyToClipboard
+import com.playgroundagc.songtracker.extension.setAllEnabled
+import com.playgroundagc.songtracker.extension.setInactive
 import com.playgroundagc.songtracker.fragments.list.adapters.ListAdapter
 import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import kotlinx.coroutines.flow.collect
+import org.jetbrains.anko.support.v4.toast
 import timber.log.Timber
 
 class ListFragment : Fragment() {
@@ -31,7 +36,6 @@ class ListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        viewModel = ViewModelProvider(this).get(SongViewModel::class.java)
         setHasOptionsMenu(true)
     }
 
@@ -49,30 +53,23 @@ class ListFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.floatingActionButton.setOnClickListener {
-            navController.navigate(R.id.listFragmentToAddFragment)
+            navigate()
         }
 
         binding.songCount.okInfoBtn.setOnClickListener {
             binding.songCount.songCountLayout.visibility = View.GONE
+            binding.listLayout.setAllEnabled(false)
+            binding.floatingActionButton.setInactive(true)
+        }
+
+        binding.songCount.copyInfoBtn.setOnClickListener {
+            copySongsToClipboard()
         }
 
         setUpRecyclerView(0)
 
-//        viewModel.tabSelect.observe(viewLifecycleOwner, { tab ->
-//            setUpRecyclerView(tab)
-//            Log.i("LIST", "Result = $tab")
-//        })
-        Log.i("LIST", "Result = ${viewModel.tabSelect.value}")
-
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-
-//                try {
-//                    viewModel.assignTabSelected(tab!!.position)
-//                } catch (e: Exception) {
-//                    Timber.e("Error: $e")
-//                }
-
                 setUpRecyclerView(tab!!.position)
             }
 
@@ -107,11 +104,12 @@ class ListFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    @SuppressLint("LogNotTimber")
     override fun onResume() {
         super.onResume()
 
         try {
-            binding.tabLayout.getTabAt(viewModel.tabSelect.value!!)?.select()
+            binding.tabLayout.getTabAt(viewModel.tabSelect.value!!)!!.select()
         } catch (e: Exception) {
             Timber.e("Error: $e")
             Log.e("LIST", "Error: ${viewModel.tabSelect.value}")
@@ -131,6 +129,8 @@ class ListFragment : Fragment() {
     //region Song Info
     private fun songInfo() {
         binding.songCount.songCountLayout.visibility = View.VISIBLE
+        binding.listLayout.setAllEnabled(true)
+        binding.floatingActionButton.setInactive(false)
     }
     //endregion
 
@@ -150,22 +150,48 @@ class ListFragment : Fragment() {
                     0 -> {
                         viewModel.readStatusNotStartedDataDESC.collect { value ->
                             adapter.setData(value)
+                            viewModel.assignTabSelected(status)
                         }
                     }
                     1 -> {
                         viewModel.readStatusInProgressDataDESC.collect { value ->
                             adapter.setData(value)
+                            viewModel.assignTabSelected(status)
                         }
                     }
                     else -> {
                         viewModel.readStatusLearnedDataDESC.collect { value ->
                             adapter.setData(value)
+                            viewModel.assignTabSelected(2)
                         }
                     }
                 }
             }
         } else {
             Timber.e("Tab position is null")
+        }
+    }
+    //endregion
+
+    //region Navigation
+    private fun navigate() {
+        navController.navigate(R.id.listFragmentToAddFragment)
+    }
+    //endregion
+
+    //region Song Count
+    private fun copySongsToClipboard() {
+        toast("Copying to clipboard...")
+        lifecycleScope.launchWhenResumed {
+            var result = ""
+            viewModel.readAllSongs.collect { value ->
+                value.forEach {
+                    val current = "${it.name}, ${it.artist}, ${it.status}\n"
+                    result += current
+                }
+
+                requireContext().copyToClipboard(result)
+            }
         }
     }
     //endregion

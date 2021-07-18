@@ -26,7 +26,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -102,109 +102,142 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="24dp"/>
+
+            <LinearLayout
+                android:id="@+id/noLinkAvailableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/noLinkAvailableText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="64dp"
+                    android:text="@string/item_empty_link_text"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/addALinkText"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginTop="-16dp"
+                    android:layout_marginEnd="64dp"
+                    android:text="@string/add_a_link_text" />
+            </LinearLayout>
+
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/song_layout_update"
+        <ScrollView
+            android:id="@+id/song_layout_update_scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:context=".fragments.detail.DetailFragment">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/song_name_layout_update"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/song_layout_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="64dp"
-                android:layout_marginEnd="32dp"
-                android:hint="@string/song_name_hint">
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:context=".fragments.detail.DetailFragment">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/song_name_update"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/song_name_layout_update"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={song.name}"
-                    android:inputType="text" />
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="64dp"
+                    android:layout_marginEnd="32dp"
+                    android:hint="@string/song_name_hint">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/song_name_update"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={song.name}"
+                        android:inputType="text" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/song_artist_layout_update"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:hint="@string/song_artist_hint">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/song_artist_update"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/song_artist_layout_update"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={song.artist}"
-                    android:inputType="text" />
+                    android:layout_marginTop="32dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:hint="@string/song_artist_hint">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/song_artist_update"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={song.artist}"
+                        android:inputType="text" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/song_link_layout_update"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:hint="@string/song_link_hint">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/song_link_update"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/song_link_layout_update"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@={song.link}"
-                    android:inputType="text" />
+                    android:layout_marginTop="32dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:hint="@string/song_link_hint">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/song_link_update"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={song.link}"
+                        android:inputType="text" />
 
-            <Spinner
-                android:id="@+id/spinner_song_status_update"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <Spinner
-                android:id="@+id/spinner_song_category_update"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp" />
+                <Spinner
+                    android:id="@+id/spinner_song_status_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp" />
 
-            <Button
-                android:id="@+id/button_song_update"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="64dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:text="@string/update_btn_text"/>
+                <Spinner
+                    android:id="@+id/spinner_song_category_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp" />
 
-            <Button
-                android:id="@+id/button_song_update_cancel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginEnd="32dp"
-                android:backgroundTint="@color/alert_red"
-                android:text="@string/cancel_btn_text"/>
-        </LinearLayout>
+                <Button
+                    android:id="@+id/button_song_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="64dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:text="@string/update_btn_text"/>
 
+                <Button
+                    android:id="@+id/button_song_update_cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:backgroundTint="@color/alert_red"
+                    android:text="@string/cancel_btn_text"/>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
 </layout>

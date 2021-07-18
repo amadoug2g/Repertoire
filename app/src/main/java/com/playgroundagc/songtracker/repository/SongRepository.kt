@@ -20,6 +20,7 @@ class SongRepository(private val songDao: SongDao) {
     val readStatusNotStartedDataDESC: Flow<List<Song>> = songDao.readStatusDataDESC(SongStatus.Not_Started)
     val readStatusInProgressDataDESC: Flow<List<Song>> = songDao.readStatusDataDESC(SongStatus.In_Progress)
     val readStatusLearnedDataDESC: Flow<List<Song>> = songDao.readStatusDataDESC(SongStatus.Learned)
+    val readAllSongs: Flow<List<Song>> = songDao.readAllSongs()
 //    val countNotStartedSongs: Int = songDao.countSongsByStatus(SongStatus.Not_Started)
 //    val countInProgressSongs: Int = songDao.countSongsByStatus(SongStatus.In_Progress)
 //    val countLearnedSongs: Int = songDao.countSongsByStatus(SongStatus.Learned)

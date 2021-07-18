@@ -29,6 +29,7 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
     val readStatusInProgressDataDESC: Flow<List<Song>>
     private val readStatusLearnedDataASC: Flow<List<Song>>
     val readStatusLearnedDataDESC: Flow<List<Song>>
+    val readAllSongs: Flow<List<Song>>
     private val repository: SongRepository
 
 //    val countNotStartedSongs: Int
@@ -60,6 +61,7 @@ class SongViewModel(application: Application): AndroidViewModel(application) {
         readStatusNotStartedDataDESC = repository.readStatusNotStartedDataDESC
         readStatusInProgressDataDESC = repository.readStatusInProgressDataDESC
         readStatusLearnedDataDESC = repository.readStatusLearnedDataDESC
+        readAllSongs = repository.readAllSongs
 
         countNotStartedSongs()
         countInProgressSongs()

@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.playgroundagc.songtracker.R
+import com.playgroundagc.songtracker.activities.MainActivity
 import com.playgroundagc.songtracker.databinding.FragmentAddBinding
 import com.playgroundagc.songtracker.model.Song
 import com.playgroundagc.songtracker.model.SongCategory
@@ -21,16 +21,10 @@ class AddFragment : Fragment() {
 
     companion object {
         private lateinit var binding: FragmentAddBinding
-        private lateinit var viewModel: SongViewModel
+        private var viewModel: SongViewModel = MainActivity.viewModel
     }
 
     //region Override Methods
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProvider(this).get(SongViewModel::class.java)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,6 +37,8 @@ class AddFragment : Fragment() {
         )
 
         setupStatusSpinner()
+
+        setStatusSelect()
 
         binding.buttonSongAdd.setOnClickListener {
             insertDataToDatabase()
@@ -59,6 +55,11 @@ class AddFragment : Fragment() {
 
         binding.spinnerSongCategoryAdd.adapter =
             ArrayAdapter(requireContext(), R.layout.simple_layout_file, SongCategory.values())
+    }
+
+    private fun setStatusSelect() {
+        binding.spinnerSongStatusAdd.setSelection(viewModel.tabSelect.value!!)
+        toast("tab: ${viewModel.tabSelect.value}")
     }
     //endregion
 
