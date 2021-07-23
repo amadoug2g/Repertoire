@@ -1,4 +1,4 @@
-package com.playgroundagc.songtracker.activities
+package com.playgroundagc.songtracker.app.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -12,9 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.playgroundagc.songtracker.R
 import com.playgroundagc.songtracker.databinding.ActivityMainBinding
-import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import timber.log.Timber
-import timber.log.Timber.plant
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var viewModel: SongViewModel
     }
 
+    //region Override Methods
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
@@ -36,9 +35,7 @@ class MainActivity : AppCompatActivity() {
             executePendingBindings()
         }
 
-        if (BuildConfig.DEBUG) {
-            plant(Timber.DebugTree())
-        }
+        initializeTimber()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
@@ -51,4 +48,13 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
+    //endregion
+
+    //region Timber
+    private fun initializeTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+    }
+    //endregion
 }

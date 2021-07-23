@@ -1,4 +1,4 @@
-package com.playgroundagc.songtracker.model
+package com.playgroundagc.songtracker.domain
 
 /**
  * Created by Amadou on 07/06/2021, 17:26

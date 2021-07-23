@@ -1,8 +1,8 @@
-package com.playgroundagc.songtracker.data.local
+package com.playgroundagc.songtracker.app.framework
 
 import androidx.room.*
-import com.playgroundagc.songtracker.model.Song
-import com.playgroundagc.songtracker.model.SongStatus
+import com.playgroundagc.songtracker.domain.Song
+import com.playgroundagc.songtracker.domain.SongStatus
 import kotlinx.coroutines.flow.Flow
 
 /**

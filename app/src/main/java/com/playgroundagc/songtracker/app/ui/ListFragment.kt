@@ -1,4 +1,4 @@
-package com.playgroundagc.songtracker.fragments.list
+package com.playgroundagc.songtracker.app.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -13,14 +13,11 @@ import androidx.transition.ChangeBounds
 import androidx.transition.TransitionInflater
 import com.google.android.material.tabs.TabLayout
 import com.playgroundagc.songtracker.R
-import com.playgroundagc.songtracker.activities.MainActivity
-import com.playgroundagc.songtracker.activities.MainActivity.Companion.navController
+import com.playgroundagc.songtracker.app.ui.MainActivity.Companion.navController
 import com.playgroundagc.songtracker.databinding.FragmentListBinding
 import com.playgroundagc.songtracker.extension.copyToClipboard
 import com.playgroundagc.songtracker.extension.setAllEnabled
 import com.playgroundagc.songtracker.extension.setInactive
-import com.playgroundagc.songtracker.fragments.list.adapters.ListAdapter
-import com.playgroundagc.songtracker.viewmodel.SongViewModel
 import kotlinx.coroutines.flow.collect
 import org.jetbrains.anko.support.v4.toast
 import timber.log.Timber

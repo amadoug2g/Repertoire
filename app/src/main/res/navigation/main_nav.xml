@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.playgroundagc.songtracker.fragments.list.ListFragment"
+        android:name="com.playgroundagc.songtracker.app.ui.ListFragment"
         android:label="Song list"
         app:launchSingleTop="true"
         tools:layout="@layout/fragment_list" >
@@ -20,24 +20,16 @@
     </fragment>
     <fragment
         android:id="@+id/addFragment"
-        android:name="com.playgroundagc.songtracker.fragments.add.AddFragment"
+        android:name="com.playgroundagc.songtracker.app.ui.AddFragment"
         tools:layout="@layout/fragment_add"
         android:label="Add new song" />
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.playgroundagc.songtracker.fragments.detail.DetailFragment"
+        android:name="com.playgroundagc.songtracker.app.ui.DetailFragment"
         tools:layout="@layout/fragment_detail"
         android:label="Song details" >
         <argument
             android:name="currentSong"
-            app:argType="com.playgroundagc.songtracker.model.Song" />
-        <action
-            android:id="@+id/detailFragmentToVideoFragment"
-            app:destination="@id/videoFragment" />
+            app:argType="com.playgroundagc.songtracker.domain.Song" />
     </fragment>
-    <fragment
-        android:id="@+id/videoFragment"
-        android:name="com.playgroundagc.songtracker.fragments.VideoFragment"
-        android:label="fragment_video"
-        tools:layout="@layout/fragment_video" />
 </navigation>

@@ -7,7 +7,7 @@
     <data>
         <variable
             name="song"
-            type="com.playgroundagc.songtracker.model.Song" />
+            type="com.playgroundagc.songtracker.domain.Song" />
     </data>
 
     <LinearLayout
@@ -15,14 +15,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".fragments.detail.DetailFragment">
+        tools:context=".app.ui.DetailFragment">
 
         <LinearLayout
             android:id="@+id/song_layout_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:context=".fragments.detail.DetailFragment">
+            tools:context=".app.ui.DetailFragment">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone"
-                tools:context=".fragments.detail.DetailFragment">
+                tools:context=".app.ui.DetailFragment">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/song_name_layout_update"

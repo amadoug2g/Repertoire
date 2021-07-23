@@ -1,9 +1,12 @@
-package com.playgroundagc.songtracker.repository
+package com.playgroundagc.songtracker.data
 
-import com.playgroundagc.songtracker.data.local.SongDao
-import com.playgroundagc.songtracker.model.Song
-import com.playgroundagc.songtracker.model.SongStatus
+import android.content.Context
+import com.playgroundagc.songtracker.app.framework.SongDao
+import com.playgroundagc.songtracker.domain.Song
+import com.playgroundagc.songtracker.domain.SongStatus
+import com.playgroundagc.songtracker.extension.copyToClipboard
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 
 /**
  * Created by Amadou on 07/06/2021, 17:42
@@ -51,5 +54,17 @@ class SongRepository(private val songDao: SongDao) {
 
     fun countLearnedSongs(): Int {
         return songDao.countSongsByStatus(SongStatus.Learned)
+    }
+
+    suspend fun copySongs(context: Context) {
+        var result = ""
+        readAllSongs.collect { value ->
+            value.forEach {
+                val current = "${it.name}, ${it.artist}, ${it.status}\n"
+                result += current
+            }
+
+            context.copyToClipboard(result)
+        }
     }
 }

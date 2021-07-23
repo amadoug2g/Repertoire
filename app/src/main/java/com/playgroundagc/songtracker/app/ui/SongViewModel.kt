@@ -1,13 +1,13 @@
-package com.playgroundagc.songtracker.viewmodel
+package com.playgroundagc.songtracker.app.ui
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.playgroundagc.songtracker.data.local.SongDatabase
-import com.playgroundagc.songtracker.model.Song
-import com.playgroundagc.songtracker.repository.SongRepository
+import com.playgroundagc.songtracker.app.framework.SongDatabase
+import com.playgroundagc.songtracker.data.SongRepository
+import com.playgroundagc.songtracker.domain.Song
 import com.playgroundagc.songtracker.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

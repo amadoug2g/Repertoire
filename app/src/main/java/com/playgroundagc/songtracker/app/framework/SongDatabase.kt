@@ -1,4 +1,4 @@
-package com.playgroundagc.songtracker.data.local
+package com.playgroundagc.songtracker.app.framework
 
 import android.content.Context
 import androidx.room.Database
@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.playgroundagc.songtracker.model.Song
+import com.playgroundagc.songtracker.domain.Song
 
 
 /**

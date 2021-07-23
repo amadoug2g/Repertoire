@@ -7,10 +7,12 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
+import com.playgroundagc.songtracker.app.framework.SongDatabase
+import com.playgroundagc.songtracker.app.framework.SongDao
 import com.playgroundagc.songtracker.getOrAwaitValue
-import com.playgroundagc.songtracker.model.Song
-import com.playgroundagc.songtracker.model.SongCategory
-import com.playgroundagc.songtracker.model.SongStatus
+import com.playgroundagc.songtracker.domain.Song
+import com.playgroundagc.songtracker.domain.SongCategory
+import com.playgroundagc.songtracker.domain.SongStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After

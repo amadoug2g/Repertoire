@@ -1,6 +1,4 @@
-package com.playgroundagc.songtracker.model
-
-import com.playgroundagc.songtracker.R
+package com.playgroundagc.songtracker.domain
 
 /**
  * Created by Amadou on 21/06/2021, 23:57

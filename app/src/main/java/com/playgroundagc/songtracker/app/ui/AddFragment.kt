@@ -1,4 +1,4 @@
-package com.playgroundagc.songtracker.fragments.add
+package com.playgroundagc.songtracker.app.ui
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -9,12 +9,10 @@ import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.playgroundagc.songtracker.R
-import com.playgroundagc.songtracker.activities.MainActivity
 import com.playgroundagc.songtracker.databinding.FragmentAddBinding
-import com.playgroundagc.songtracker.model.Song
-import com.playgroundagc.songtracker.model.SongCategory
-import com.playgroundagc.songtracker.model.SongStatus
-import com.playgroundagc.songtracker.viewmodel.SongViewModel
+import com.playgroundagc.songtracker.domain.Song
+import com.playgroundagc.songtracker.domain.SongCategory
+import com.playgroundagc.songtracker.domain.SongStatus
 import org.jetbrains.anko.support.v4.toast
 
 class AddFragment : Fragment() {
@@ -59,7 +57,6 @@ class AddFragment : Fragment() {
 
     private fun setStatusSelect() {
         binding.spinnerSongStatusAdd.setSelection(viewModel.tabSelect.value!!)
-        toast("tab: ${viewModel.tabSelect.value}")
     }
     //endregion
 

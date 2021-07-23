@@ -6,14 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.playgroundagc.songtracker.viewmodel.SongViewModel" />
+            type="com.playgroundagc.songtracker.app.ui.SongViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent"
-        tools:context=".fragments.list.ListFragment">
+        tools:context=".app.ui.ListFragment">
 
         <LinearLayout
             android:id="@+id/list_layout"
