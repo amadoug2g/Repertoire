@@ -18,6 +18,7 @@ import com.playgroundagc.songtracker.databinding.FragmentDetailBinding
 import com.playgroundagc.songtracker.domain.Song
 import com.playgroundagc.songtracker.domain.SongCategory
 import com.playgroundagc.songtracker.domain.SongStatus
+import com.playgroundagc.songtracker.extension.getVideo
 import com.playgroundagc.songtracker.extension.inputCheck
 import com.playgroundagc.songtracker.extension.visibility
 import com.playgroundagc.songtracker.util.Authentication
@@ -91,7 +92,6 @@ class DetailFragment : Fragment() {
         })
 
         setCurrentSongDetail()
-//        assignTab()
 
         binding.buttonSongUpdate.setOnClickListener {
             updateSong(viewModel.currentSong.value!!)
@@ -243,37 +243,6 @@ class DetailFragment : Fragment() {
         intent.putExtra("videoID", viewModel.currentSong.value?.link)
         startActivity(intent)
     }
-
-    private fun getVideo(link: String?): String {
-        return if (link != null) {
-            when (link.length) {
-                0 -> {
-                    ""
-                }
-                11 -> {
-                    link
-                }
-                else -> {
-                    link.getVideoID()
-                }
-            }
-        } else {
-            ""
-        }
-    }
-
-    private fun String.getVideoID(): String {
-        return when {
-            this.length > 43 -> {
-                this.removePrefix(this.substringBefore("=")).removePrefix("=")
-                    .removeSuffix(this.substringAfter("&")).removeSuffix("&")
-            }
-            this.length == 28 -> {
-                this.removePrefix(this.substringBeforeLast("/")).removePrefix("/")
-            }
-            else -> this.removePrefix(this.substringBefore("=")).removePrefix("=")
-        }
-    }
     //endregion
 
     //region Update Option
@@ -303,8 +272,7 @@ class DetailFragment : Fragment() {
 
             if (link.inputCheck()) updatedSong.link = link
 
-            viewModel.assignSong(updatedSong)
-            viewModel.updateSong()
+            viewModel.updateSong(updatedSong)
 
             toast("${updatedSong.name} updated")
 

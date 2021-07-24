@@ -10,5 +10,5 @@ import com.playgroundagc.songtracker.data.SongRepository
  */
 
 class GetSongsNotStartedUseCase(private val songRepository: SongRepository) {
-    operator fun invoke() = songRepository.readStatusNotStartedDataDESC
+    operator fun invoke() = songRepository.readStatusNotStartedDataDESC()
 }

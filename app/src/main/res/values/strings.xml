@@ -19,9 +19,12 @@
     <string name="sort_song">Sort</string>
     <string name="sort_by_alpha">Ascending / Descending</string>
     <string name="add_song_fab">Add Song</string>
-    <string name="learned_tab">Learned</string>
-    <string name="in_progress_tab">In Progress</string>
     <string name="not_started_tab">Not Started</string>
+    <string name="in_progress_tab">In Progress</string>
+    <string name="learned_tab">Learned</string>
+    <string name="not_started_count_txt">  Not Started</string>
+    <string name="in_progress_count_txt">  In Progress</string>
+    <string name="learned_count_txt">  Learned</string>
     <string name="card_image_desc">card image</string>
     <string name="info">Info</string>
     <string name="song_count_text">Song count</string>
@@ -31,4 +34,5 @@
     <string name="copy_songs_text">Copy songs</string>
     <string name="item_empty_link_text">This item has no link</string>
     <string name="add_a_link_text">Add a link</string>
+    <string name="total_txt">Total</string>
 </resources>

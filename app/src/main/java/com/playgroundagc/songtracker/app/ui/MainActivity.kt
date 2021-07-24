@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(SongViewModel::class.java)
+//        viewModel = SongViewModelFactory(application)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 

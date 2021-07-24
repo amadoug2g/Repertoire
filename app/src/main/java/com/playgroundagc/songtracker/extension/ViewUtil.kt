@@ -44,3 +44,34 @@ fun String.inputCheck(vararg text: String): Boolean {
         if (item.isNotEmpty()) continue else return false
     return true
 }
+
+fun String.getVideoID(): String {
+    return when {
+        this.length > 43 -> {
+            this.removePrefix(this.substringBefore("=")).removePrefix("=")
+                .removeSuffix(this.substringAfter("&")).removeSuffix("&")
+        }
+        this.length == 28 -> {
+            this.removePrefix(this.substringBeforeLast("/")).removePrefix("/")
+        }
+        else -> this.removePrefix(this.substringBefore("=")).removePrefix("=")
+    }
+}
+
+fun getVideo(link: String?): String {
+    return if (link != null) {
+        when (link.length) {
+            0 -> {
+                ""
+            }
+            11 -> {
+                link
+            }
+            else -> {
+                link.getVideoID()
+            }
+        }
+    } else {
+        ""
+    }
+}

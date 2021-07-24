@@ -10,5 +10,5 @@ import com.playgroundagc.songtracker.data.SongRepository
  */
 
 class GetSongsInProgressUseCase(private val songRepository: SongRepository) {
-    operator fun invoke() = songRepository.readStatusInProgressDataDESC
+    operator fun invoke() = songRepository.readStatusInProgressDataDESC()
 }

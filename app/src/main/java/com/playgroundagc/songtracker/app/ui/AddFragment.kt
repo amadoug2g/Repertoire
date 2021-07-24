@@ -1,7 +1,6 @@
 package com.playgroundagc.songtracker.app.ui
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import com.playgroundagc.songtracker.databinding.FragmentAddBinding
 import com.playgroundagc.songtracker.domain.Song
 import com.playgroundagc.songtracker.domain.SongCategory
 import com.playgroundagc.songtracker.domain.SongStatus
+import com.playgroundagc.songtracker.extension.inputCheck
 import org.jetbrains.anko.support.v4.toast
 
 class AddFragment : Fragment() {
@@ -68,7 +68,7 @@ class AddFragment : Fragment() {
         val category = binding.spinnerSongCategoryAdd.selectedItem as SongCategory
         val link = binding.songLinkInputAdd.text.toString()
 
-        if (inputCheck(name, artist)) {
+        if (name.inputCheck() && artist.inputCheck()) {
             val song = Song(0, name, artist, status, category, link)
 
             viewModel.addSong(song)
@@ -79,12 +79,6 @@ class AddFragment : Fragment() {
         } else {
             toast("Fill all fields first!")
         }
-    }
-    //endregion
-
-    //region Field Check
-    private fun inputCheck(name: String, artist: String) : Boolean {
-        return !(TextUtils.isEmpty(name) && TextUtils.isEmpty(artist))
     }
     //endregion
 }

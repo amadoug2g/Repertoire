@@ -10,5 +10,5 @@ import com.playgroundagc.songtracker.data.SongRepository
  */
 
 class GetSongsLearnedUseCase(private val songRepository: SongRepository) {
-    operator fun invoke() = songRepository.readStatusLearnedDataDESC
+    operator fun invoke() = songRepository.readStatusLearnedDataDESC()
 }

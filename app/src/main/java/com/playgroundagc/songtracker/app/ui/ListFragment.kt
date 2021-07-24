@@ -15,7 +15,6 @@ import com.google.android.material.tabs.TabLayout
 import com.playgroundagc.songtracker.R
 import com.playgroundagc.songtracker.app.ui.MainActivity.Companion.navController
 import com.playgroundagc.songtracker.databinding.FragmentListBinding
-import com.playgroundagc.songtracker.extension.copyToClipboard
 import com.playgroundagc.songtracker.extension.setAllEnabled
 import com.playgroundagc.songtracker.extension.setInactive
 import kotlinx.coroutines.flow.collect
@@ -54,9 +53,8 @@ class ListFragment : Fragment() {
         }
 
         binding.songCount.okInfoBtn.setOnClickListener {
-            binding.songCount.songCountLayout.visibility = View.GONE
-            binding.listLayout.setAllEnabled(false)
-            binding.floatingActionButton.setInactive(true)
+            viewModel.countSongs()
+            displaySongCount(false)
         }
 
         binding.songCount.copyInfoBtn.setOnClickListener {
@@ -67,7 +65,7 @@ class ListFragment : Fragment() {
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                setUpRecyclerView(tab!!.position)
+                setUpRecyclerView(tab?.position)
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -105,6 +103,8 @@ class ListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        viewModel.countSongs()
+
         try {
             binding.tabLayout.getTabAt(viewModel.tabSelect.value!!)!!.select()
         } catch (e: Exception) {
@@ -125,16 +125,13 @@ class ListFragment : Fragment() {
 
     //region Song Info
     private fun songInfo() {
-        binding.songCount.songCountLayout.visibility = View.VISIBLE
-        binding.listLayout.setAllEnabled(true)
-        binding.floatingActionButton.setInactive(false)
+        displaySongCount(true)
     }
     //endregion
 
     //region RecyclerView
     private fun setUpRecyclerView(status: Int?) {
         if (status != null) {
-//            viewModel.assignTabSelected(status)
 
             val adapter = ListAdapter()
             adapter.stateRestorationPolicy =
@@ -177,19 +174,26 @@ class ListFragment : Fragment() {
     //endregion
 
     //region Song Count
-    private fun copySongsToClipboard() {
-        toast("Copying to clipboard...")
-        lifecycleScope.launchWhenResumed {
-            var result = ""
-            viewModel.readAllSongs.collect { value ->
-                value.forEach {
-                    val current = "${it.name}, ${it.artist}, ${it.status}\n"
-                    result += current
-                }
-
-                requireContext().copyToClipboard(result)
+    private fun displaySongCount(displayCount: Boolean) {
+        when (displayCount) {
+            true -> {
+                binding.songCount.songCountLayout.visibility = View.VISIBLE
+                binding.listLayout.setAllEnabled(true)
+                binding.floatingActionButton.setInactive(false)
+            }
+            false -> {
+                binding.songCount.songCountLayout.visibility = View.GONE
+                binding.listLayout.setAllEnabled(false)
+                binding.floatingActionButton.setInactive(true)
             }
         }
+
+    }
+
+    private fun copySongsToClipboard() {
+        toast("Copying...")
+        viewModel.copySongs(requireContext())
+        toast("Songs copied to clipboard!")
     }
     //endregion
 }

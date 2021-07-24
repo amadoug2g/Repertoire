@@ -19,6 +19,9 @@
     <string name="learned_tab">Learned</string>
     <string name="in_progress_tab">In Progress</string>
     <string name="not_started_tab">Not Started</string>
+    <string name="not_started_count_txt">  Not Started</string>
+    <string name="in_progress_count_txt">  In Progress</string>
+    <string name="learned_count_txt">  Learned</string>
     <string name="info">Info</string>
     <string name="song_count_text">Song count</string>
     <string name="play_video">Play video</string>
@@ -27,4 +30,5 @@
     <string name="copy_songs_text">Copy</string>
     <string name="item_empty_link_text">This item has no link</string>
     <string name="add_a_link_text">Add a link</string>
+    <string name="total_txt">Total</string>
 </resources>
