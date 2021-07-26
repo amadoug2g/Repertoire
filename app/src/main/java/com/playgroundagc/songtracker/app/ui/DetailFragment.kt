@@ -175,7 +175,7 @@ class DetailFragment : Fragment() {
             }
         }
 
-        viewModel.assignTabSelected(tabSelected)
+//        viewModel.assignTabSelected(tabSelected)
     }
     //endregion
 

@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
@@ -17,7 +16,6 @@ import com.playgroundagc.songtracker.app.ui.MainActivity.Companion.navController
 import com.playgroundagc.songtracker.databinding.FragmentListBinding
 import com.playgroundagc.songtracker.extension.setAllEnabled
 import com.playgroundagc.songtracker.extension.setInactive
-import kotlinx.coroutines.flow.collect
 import org.jetbrains.anko.support.v4.toast
 import timber.log.Timber
 
@@ -26,6 +24,7 @@ class ListFragment : Fragment() {
     companion object {
         private lateinit var binding: FragmentListBinding
         private var viewModel: SongViewModel = MainActivity.viewModel
+        private lateinit var adapter: ListAdapter
     }
 
     //region Override Methods
@@ -46,6 +45,12 @@ class ListFragment : Fragment() {
             false
         )
 
+        setUpAdapter()
+
+        viewModel.currentSongList.observe(viewLifecycleOwner, {
+            adapter.setData(it)
+        })
+
         binding.viewModel = viewModel
 
         binding.floatingActionButton.setOnClickListener {
@@ -61,11 +66,9 @@ class ListFragment : Fragment() {
             copySongsToClipboard()
         }
 
-        setUpRecyclerView(0)
-
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                setUpRecyclerView(tab?.position)
+                updateRecyclerView(tab?.position)
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -112,7 +115,7 @@ class ListFragment : Fragment() {
             Log.e("LIST", "Error: ${viewModel.tabSelect.value}")
         }
 
-        setUpRecyclerView(viewModel.tabSelect.value)
+        updateRecyclerView(viewModel.tabSelect.value)
     }
 
     override fun onStop() {
@@ -130,37 +133,18 @@ class ListFragment : Fragment() {
     //endregion
 
     //region RecyclerView
-    private fun setUpRecyclerView(status: Int?) {
+    private fun setUpAdapter() {
+        adapter = ListAdapter()
+        adapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        binding.recyclerview.adapter = adapter
+        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
+        updateRecyclerView(0)
+    }
+
+    private fun updateRecyclerView(status: Int?) {
         if (status != null) {
-
-            val adapter = ListAdapter()
-            adapter.stateRestorationPolicy =
-                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-            binding.recyclerview.adapter = adapter
-            binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
-
-            lifecycleScope.launchWhenResumed {
-                when (status) {
-                    0 -> {
-                        viewModel.readStatusNotStartedDataDESC.collect { value ->
-                            adapter.setData(value)
-                            viewModel.assignTabSelected(status)
-                        }
-                    }
-                    1 -> {
-                        viewModel.readStatusInProgressDataDESC.collect { value ->
-                            adapter.setData(value)
-                            viewModel.assignTabSelected(status)
-                        }
-                    }
-                    else -> {
-                        viewModel.readStatusLearnedDataDESC.collect { value ->
-                            adapter.setData(value)
-                            viewModel.assignTabSelected(2)
-                        }
-                    }
-                }
-            }
+            viewModel.getSongList(status)
         } else {
             Timber.e("Tab position is null")
         }

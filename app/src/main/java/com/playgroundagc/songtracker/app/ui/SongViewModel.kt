@@ -13,6 +13,7 @@ import com.playgroundagc.songtracker.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import com.playgroundagc.songtracker.domain.Song as DomainSong
 
@@ -42,7 +43,6 @@ class SongViewModel(
     var readStatusNotStartedDataDESC: Flow<List<DomainSong>>
     var readStatusInProgressDataDESC: Flow<List<DomainSong>>
     var readStatusLearnedDataDESC: Flow<List<DomainSong>>
-    var readAllSongs: Flow<List<DomainSong>>
     private val repository: SongRepository
 
     private val _countNotStartedSongs = MutableLiveData<Int>()
@@ -54,8 +54,8 @@ class SongViewModel(
     private val _countLearnedSongs = MutableLiveData<Int>()
     val countLearnedSongs: LiveData<Int> = _countLearnedSongs
 
-    val countTotalSongs: LiveData<Int> =
-        _countNotStartedSongs// + _countInProgressSongs// + _countLearnedSongs
+    private val _currentSongList = MutableLiveData<List<DomainSong>>()
+    val currentSongList: LiveData<List<DomainSong>> = _currentSongList
 
     private val _currentSong = SingleLiveEvent<DomainSong>()
     val currentSong: LiveData<DomainSong> = _currentSong
@@ -70,8 +70,6 @@ class SongViewModel(
         readStatusInProgressDataDESC = repository.readStatusInProgressDataDESC()
         readStatusLearnedDataDESC = repository.readStatusLearnedDataDESC()
 
-        readAllSongs = repository.readAllSongs
-
         countSongs()
     }
 
@@ -80,14 +78,21 @@ class SongViewModel(
      * Keeps track of current [DomainSong] for Details & Update Pages
      * */
     fun assignSong(currentSong: DomainSong) {
-        _currentSong.value = currentSong
+        _currentSong.postValue(currentSong)
     }
 
     /**
      * Keeps track of current tab
      * */
     fun assignTabSelected(int: Int) {
-        tabSelect.value = int
+        tabSelect.postValue(int)
+    }
+
+    /**
+     * Keeps track of current [DomainSong] list shown
+     * */
+    private fun assignSongList(list: List<DomainSong>) {
+        _currentSongList.postValue(list)
     }
     //endregion
 
@@ -126,6 +131,29 @@ class SongViewModel(
         getSongsNotStarted()
         getSongsInProgress()
         getSongsLearned()
+    }
+
+    fun getSongList(status: Int) {
+        assignTabSelected(status)
+        viewModelScope.launch(IO) {
+            when (status) {
+                0 -> {
+                    readStatusNotStartedDataDESC.collect {
+                        assignSongList(it)
+                    }
+                }
+                1 -> {
+                    readStatusInProgressDataDESC.collect {
+                        assignSongList(it)
+                    }
+                }
+                else -> {
+                    readStatusLearnedDataDESC.collect {
+                        assignSongList(it)
+                    }
+                }
+            }
+        }
     }
 
     private fun getSongsNotStarted() {
