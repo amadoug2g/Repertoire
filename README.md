@@ -5,7 +5,7 @@ Mobile application using Kotlin &amp; Room
 
 
 ## Introduction
-A mobile application used to keep track the songs learned you've learned, currently learning or looking to add to your repertoire. Made using Kotlin, Room and the [DeepL API](https://www.deepl.com/docs-api/introduction/) (Refactoring in progress to implement Clean Architecture).
+A mobile application used to keep track the songs learned you've learned, currently learning or looking to add to your repertoire. Made using Kotlin and Room (Refactoring in progress to implement Clean Architecture).
 
 ## Features
 * Add and edit songs you have learned or trying to learn;
@@ -20,8 +20,6 @@ Android Studio :) and a DeepL Account
 ```
 git clone https://github.com/amadoug2g/Song_Tracker
 ```
-### 3. Get the DeepL API
-Create a free [DeepL](https://www.deepl.com/docs-api/introduction/) account to get an API key and place it anywhere (Authentication Object for me, at the root of the project)
 
 ## What's next
 - [ ] Share a youtube link to the app and add or update a song
