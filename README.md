@@ -11,7 +11,7 @@ A mobile application used to keep track the songs learned you've learned, curren
 * Add and edit songs you have learned or trying to learn;
 * Sort songs into 3 categories (not started, in progress, learned) to easily find what you're looking for;
 * Add a youtube link of the song to watch it in the App;
-* Get a summary of your songs and copy them to the clipboard!
+* Get a summary count of your songs and copy them to the clipboard!
 
 ## Installation & Setup
 ### 1. Pre-requisites
@@ -22,3 +22,11 @@ git clone https://github.com/amadoug2g/Song_Tracker
 ```
 ### 3. Get the DeepL API
 Create a free [DeepL](https://www.deepl.com/docs-api/introduction/) account to get an API key and place it anywhere (Authentication Object for me, at the root of the project)
+
+## What's next
+- [ ] Share a youtube link to the app and add or update a song
+- [ ] Option to add songs learned by ear
+- [ ] Record your performance to have it displayed on the detail fragment
+- [ ] Search for a video link using the Youtube Search API
+- [ ] Update (Modernize) the detail fragment
+- [ ] Support Multiple languages
