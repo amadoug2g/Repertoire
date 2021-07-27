@@ -15,7 +15,7 @@ A mobile application used to keep track the songs learned you've learned, curren
 
 ## Installation & Setup
 ### 1. Pre-requisites
-Android Studio :) and a DeepL Account
+Android Studio :)
 ### 2. Install dependencies / Clone project
 ```
 git clone https://github.com/amadoug2g/Song_Tracker
