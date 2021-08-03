@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import androidx.transition.ChangeBounds
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -26,10 +27,10 @@ import org.jetbrains.anko.support.v4.toast
 
 class DetailFragment : Fragment() {
     private val args by navArgs<DetailFragmentArgs>()
+    val viewModel: SongViewModel by activityViewModels()
 
     companion object {
         private lateinit var binding: FragmentDetailBinding
-        private var viewModel: SongViewModel = MainActivity.viewModel
     }
 
     //region Override Methods
@@ -55,7 +56,8 @@ class DetailFragment : Fragment() {
         viewModel.currentSong.observe(viewLifecycleOwner, { song ->
             binding.song = song
 
-            binding.noLinkAvailableLayout.visibility = if (song.link == "") View.VISIBLE else View.GONE
+            binding.noLinkAvailableLayout.visibility =
+                if (song.link == "") View.VISIBLE else View.GONE
 
             //region Youtube Player
             val youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance()

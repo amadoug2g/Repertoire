@@ -1,13 +1,7 @@
 package com.playgroundagc.songtracker.app.ui
 
-import android.app.Application
 import android.content.Context
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.playgroundagc.songtracker.app.framework.SongDatabase
-import com.playgroundagc.songtracker.data.SongRepository
+import androidx.lifecycle.*
 import com.playgroundagc.songtracker.usecases.*
 import com.playgroundagc.songtracker.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers.Default
@@ -25,25 +19,23 @@ import com.playgroundagc.songtracker.domain.Song as DomainSong
  */
 
 class SongViewModel(
-    application: Application
-//    private val addSong: AddSongUseCase,
-//    private val updateSongUseCase: UpdateSongUseCase,
-//    private val deleteSongUseCase: DeleteSongUseCase,
-//    private val deleteAllSongsUseCase: DeleteAllSongsUseCase,
-//    private val getSongsNotStartedUseCase: GetSongsNotStartedUseCase,
-//    private val getSongsInProgressUseCase: GetSongsInProgressUseCase,
-//    private val getSongsLearnedUseCase: GetSongsLearnedUseCase,
-//    private val getCountSongsNotStartedUseCase: GetCountSongsNotStartedUseCase,
-//    private val getCountSongsInProgressUseCase: GetCountSongsInProgressUseCase,
-//    private val getCountSongsLearnedUseCase: GetCountSongsLearnedUseCase,
-//    private val copySongsUseCase: CopySongsUseCase
-) : AndroidViewModel(application) {
+    private val addSongUseCase: AddSongUseCase,
+    private val updateSongUseCase: UpdateSongUseCase,
+    private val deleteSongUseCase: DeleteSongUseCase,
+    private val deleteAllSongsUseCase: DeleteAllSongsUseCase,
+    private val getSongsNotStartedUseCase: GetSongsNotStartedUseCase,
+    private val getSongsInProgressUseCase: GetSongsInProgressUseCase,
+    private val getSongsLearnedUseCase: GetSongsLearnedUseCase,
+    private val countSongsNotStartedUseCase: CountSongsNotStartedUseCase,
+    private val countSongsInProgressUseCase: CountSongsInProgressUseCase,
+    private val countSongsLearnedUseCase: CountSongsLearnedUseCase,
+    private val copySongsUseCase: CopySongsUseCase
+) : ViewModel() {
 
     //region Variables
-    var readStatusNotStartedDataDESC: Flow<List<DomainSong>>
-    var readStatusInProgressDataDESC: Flow<List<DomainSong>>
-    var readStatusLearnedDataDESC: Flow<List<DomainSong>>
-    private val repository: SongRepository
+
+    private val _readStatus = MutableLiveData<Flow<List<DomainSong>>>()
+    val readStatus: LiveData<Flow<List<DomainSong>>> = _readStatus
 
     private val _countNotStartedSongs = MutableLiveData<Int>()
     val countNotStartedSongs: LiveData<Int> = _countNotStartedSongs
@@ -64,11 +56,7 @@ class SongViewModel(
     //endregion
 
     init {
-        val songDao = SongDatabase.getDatabase(application).songDao()
-        repository = SongRepository(songDao)
-        readStatusNotStartedDataDESC = repository.readStatusNotStartedDataDESC()
-        readStatusInProgressDataDESC = repository.readStatusInProgressDataDESC()
-        readStatusLearnedDataDESC = repository.readStatusLearnedDataDESC()
+        _readStatus.postValue(getSongsNotStartedUseCase.invoke())
 
         countSongs()
     }
@@ -84,7 +72,7 @@ class SongViewModel(
     /**
      * Keeps track of current tab
      * */
-    fun assignTabSelected(int: Int) {
+    private fun assignTabSelected(int: Int) {
         tabSelect.postValue(int)
     }
 
@@ -99,15 +87,15 @@ class SongViewModel(
     //region Use Cases
     fun addSong(song: DomainSong) {
         viewModelScope.launch(IO) {
-//            addSong.invoke(song)
-            AddSongUseCase(repository).invoke(song)
+            addSongUseCase.invoke(song)
+//            AddSongUseCase(repo).invoke(song)
         }
     }
 
     fun updateSong(song: DomainSong) {
         viewModelScope.launch(IO) {
-//            updateSongUseCase.invoke(currentSong.value!!)
-            UpdateSongUseCase(repository).invoke(song)
+            updateSongUseCase.invoke(currentSong.value!!)
+//            UpdateSongUseCase(repo).invoke(song)
         }
 
         assignSong(song)
@@ -115,15 +103,15 @@ class SongViewModel(
 
     fun deleteSong() {
         viewModelScope.launch(IO) {
-//            deleteSongUseCase.invoke(currentSong.value!!)
-            DeleteSongUseCase(repository).invoke(currentSong.value!!)
+            deleteSongUseCase.invoke(currentSong.value!!)
+//            DeleteSongUseCase(repo).invoke(currentSong.value!!)
         }
     }
 
     fun deleteAllSongs() {
         viewModelScope.launch(IO) {
-//            deleteAllSongsUseCase.invoke()
-            DeleteAllSongsUseCase(repository).invoke()
+            deleteAllSongsUseCase.invoke()
+//            DeleteAllSongsUseCase(repo).invoke()
         }
     }
 
@@ -138,17 +126,17 @@ class SongViewModel(
         viewModelScope.launch(IO) {
             when (status) {
                 0 -> {
-                    readStatusNotStartedDataDESC.collect {
+                    getSongsNotStartedUseCase.invoke().collect {
                         assignSongList(it)
                     }
                 }
                 1 -> {
-                    readStatusInProgressDataDESC.collect {
+                    getSongsInProgressUseCase.invoke().collect {
                         assignSongList(it)
                     }
                 }
                 else -> {
-                    readStatusLearnedDataDESC.collect {
+                    getSongsLearnedUseCase.invoke().collect {
                         assignSongList(it)
                     }
                 }
@@ -159,21 +147,21 @@ class SongViewModel(
     private fun getSongsNotStarted() {
         viewModelScope.launch(IO) {
 //            readStatusNotStartedDataDESC = getSongsNotStartedUseCase.invoke()
-            readStatusNotStartedDataDESC = GetSongsNotStartedUseCase(repository).invoke()
+//            readStatusNotStartedDataDESC = GetSongsNotStartedUseCase(repo).invoke()
         }
     }
 
     private fun getSongsInProgress() {
         viewModelScope.launch(IO) {
 //            readStatusInProgressDataDESC = getSongsInProgressUseCase.invoke()
-            readStatusInProgressDataDESC = GetSongsInProgressUseCase(repository).invoke()
+//            readStatusInProgressDataDESC = GetSongsInProgressUseCase(repo).invoke()
         }
     }
 
     private fun getSongsLearned() {
         viewModelScope.launch(IO) {
 //            readStatusNotStartedDataDESC = getSongsLearnedUseCase.invoke()
-            readStatusNotStartedDataDESC = GetSongsLearnedUseCase(repository).invoke()
+//            readStatusNotStartedDataDESC = GetSongsLearnedUseCase(repo).invoke()
         }
     }
 
@@ -185,51 +173,86 @@ class SongViewModel(
 
     private fun countNotStartedSongs() {
         viewModelScope.launch(Default) {
-//            _countNotStartedSongs.postValue(getCountSongsNotStartedUseCase.invoke())
-            _countNotStartedSongs.postValue(GetCountSongsNotStartedUseCase(repository).invoke())
+            _countNotStartedSongs.postValue(countSongsNotStartedUseCase.invoke())
+//            _countNotStartedSongs.postValue(CountSongsNotStartedUseCase(repo).invoke())
         }
     }
 
     private fun countInProgressSongs() {
         viewModelScope.launch(Default) {
-//            _countInProgressSongs.postValue(getCountSongsInProgressUseCase.invoke())
-            _countInProgressSongs.postValue(GetCountSongsInProgressUseCase(repository).invoke())
+            _countInProgressSongs.postValue(countSongsInProgressUseCase.invoke())
+//            _countInProgressSongs.postValue(CountSongsInProgressUseCase(repo).invoke())
         }
     }
 
     private fun countLearnedSongs() {
         viewModelScope.launch(Default) {
-//            _countLearnedSongs.postValue(getCountSongsLearnedUseCase.invoke())
-            _countLearnedSongs.postValue(GetCountSongsLearnedUseCase(repository).invoke())
+            _countLearnedSongs.postValue(countSongsLearnedUseCase.invoke())
+//            _countLearnedSongs.postValue(CountSongsLearnedUseCase(repo).invoke())
         }
     }
 
     fun copySongs(context: Context) {
         viewModelScope.launch(IO) {
-//            copySongsUseCase.invoke(context)
-            CopySongsUseCase(repository).invoke(context)
+            copySongsUseCase.invoke(context)
+//            CopySongsUseCase(repo).invoke(context)
         }
     }
     //endregion
 }
 
-//class SongViewModelFactory(
-//    application: Application,
-//    private val addSong: AddSongUseCase,
-//    private val updateSongUseCase: UpdateSongUseCase,
-//    private val deleteSongUseCase: DeleteSongUseCase,
-//    private val deleteAllSongsUseCase: DeleteAllSongsUseCase,
-//    private val getSongsNotStartedUseCase: GetSongsNotStartedUseCase,
-//    private val getSongsInProgressUseCase: GetSongsInProgressUseCase,
-//    private val getSongsLearnedUseCase: GetSongsLearnedUseCase,
-//    private val getCountSongsNotStartedUseCase: GetCountSongsNotStartedUseCase,
-//    private val getCountSongsInProgressUseCase: GetCountSongsInProgressUseCase,
-//    private val getCountSongsLearnedUseCase: GetCountSongsLearnedUseCase,
-//    private val copySongsUseCase: CopySongsUseCase
-//) : ViewModelProvider.AndroidViewModelFactory(application) {
-//
-//    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+class SongViewModelFactory(
+    private val addSong: AddSongUseCase,
+    private val updateSongUseCase: UpdateSongUseCase,
+    private val deleteSongUseCase: DeleteSongUseCase,
+    private val deleteAllSongsUseCase: DeleteAllSongsUseCase,
+    private val getSongsNotStartedUseCase: GetSongsNotStartedUseCase,
+    private val getSongsInProgressUseCase: GetSongsInProgressUseCase,
+    private val getSongsLearnedUseCase: GetSongsLearnedUseCase,
+    private val countSongsNotStartedUseCase: CountSongsNotStartedUseCase,
+    private val countSongsInProgressUseCase: CountSongsInProgressUseCase,
+    private val countSongsLearnedUseCase: CountSongsLearnedUseCase,
+    private val copySongsUseCase: CopySongsUseCase
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 //        return super.create(modelClass) as T
-////        return SongViewModel(application = Application(), addSong, updateSongUseCase, deleteSongUseCase, deleteAllSongsUseCase, getSongsNotStartedUseCase, getSongsInProgressUseCase, getSongsLearnedUseCase, getCountSongsNotStartedUseCase, getCountSongsInProgressUseCase, getCountSongsLearnedUseCase, copySongsUseCase) as T
-//    }
-//}
+//        return SongViewModel(
+//            addSong,
+//            updateSongUseCase,
+//            deleteSongUseCase,
+//            deleteAllSongsUseCase,
+//            getSongsNotStartedUseCase,
+//            getSongsInProgressUseCase,
+//            getSongsLearnedUseCase,
+//            countSongsNotStartedUseCase,
+//            countSongsInProgressUseCase,
+//            countSongsLearnedUseCase,
+//            copySongsUseCase
+//        ) as T
+        return modelClass.getConstructor(
+            AddSongUseCase::class.java,
+            UpdateSongUseCase::class.java,
+            DeleteSongUseCase::class.java,
+            DeleteAllSongsUseCase::class.java,
+            GetSongsNotStartedUseCase::class.java,
+            GetSongsInProgressUseCase::class.java,
+            GetSongsLearnedUseCase::class.java,
+            CountSongsNotStartedUseCase::class.java,
+            CountSongsInProgressUseCase::class.java,
+            CountSongsLearnedUseCase::class.java,
+            CopySongsUseCase::class.java
+        ).newInstance(
+            addSong,
+            updateSongUseCase,
+            deleteSongUseCase,
+            deleteAllSongsUseCase,
+            getSongsNotStartedUseCase,
+            getSongsInProgressUseCase,
+            getSongsLearnedUseCase,
+            countSongsNotStartedUseCase,
+            countSongsInProgressUseCase,
+            countSongsLearnedUseCase,
+            copySongsUseCase
+        )
+    }
+}

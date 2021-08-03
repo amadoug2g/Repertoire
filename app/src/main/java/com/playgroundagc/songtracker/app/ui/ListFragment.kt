@@ -1,11 +1,11 @@
 package com.playgroundagc.songtracker.app.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
@@ -21,9 +21,13 @@ import timber.log.Timber
 
 class ListFragment : Fragment() {
 
+    private val viewModel by activityViewModels<SongViewModel>()
+//    private lateinit var viewModel: SongViewModel
+
     companion object {
         private lateinit var binding: FragmentListBinding
-        private var viewModel: SongViewModel = MainActivity.viewModel
+
+        //        private var viewModel: SongViewModel = MainActivity.viewModel
         private lateinit var adapter: ListAdapter
     }
 
@@ -45,6 +49,15 @@ class ListFragment : Fragment() {
             false
         )
 
+//        viewModel = ViewModelProvider(requireActivity()).get(SongViewModel::class.java)
+
+        try {
+            Log.i("Test value", "${viewModel.tabSelect.value}")
+        } catch (e: Exception) {
+//            Log.e("Test value", "${viewModel.tabSelect.value}")
+            Log.e("Test value", "Error: $e")
+        }
+
         setUpAdapter()
 
         viewModel.currentSongList.observe(viewLifecycleOwner, {
@@ -58,7 +71,13 @@ class ListFragment : Fragment() {
         }
 
         binding.songCount.okInfoBtn.setOnClickListener {
-            viewModel.countSongs()
+            try {
+                viewModel.countSongs()
+                Log.i("Test value", "${viewModel.countLearnedSongs.value}")
+            } catch (e: Exception) {
+                Timber.e("Error: $e")
+                Log.e("SongCount", "Error: $e")
+            }
             displaySongCount(false)
         }
 
@@ -102,7 +121,6 @@ class ListFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    @SuppressLint("LogNotTimber")
     override fun onResume() {
         super.onResume()
 
@@ -111,8 +129,7 @@ class ListFragment : Fragment() {
         try {
             binding.tabLayout.getTabAt(viewModel.tabSelect.value!!)!!.select()
         } catch (e: Exception) {
-            Timber.e("Error: $e")
-            Log.e("LIST", "Error: ${viewModel.tabSelect.value}")
+            toast("Error: $e")
         }
 
         updateRecyclerView(viewModel.tabSelect.value)
@@ -146,7 +163,7 @@ class ListFragment : Fragment() {
         if (status != null) {
             viewModel.getSongList(status)
         } else {
-            Timber.e("Tab position is null")
+            toast("Tab position is null")
         }
     }
     //endregion

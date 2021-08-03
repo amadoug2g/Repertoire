@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.playgroundagc.songtracker.R
 import com.playgroundagc.songtracker.databinding.FragmentAddBinding
 import com.playgroundagc.songtracker.domain.Song
@@ -17,9 +18,10 @@ import org.jetbrains.anko.support.v4.toast
 
 class AddFragment : Fragment() {
 
+    val viewModel: SongViewModel by activityViewModels()
+
     companion object {
         private lateinit var binding: FragmentAddBinding
-        private var viewModel: SongViewModel = MainActivity.viewModel
     }
 
     //region Override Methods

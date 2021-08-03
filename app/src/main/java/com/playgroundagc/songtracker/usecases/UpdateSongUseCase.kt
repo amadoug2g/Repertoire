@@ -6,10 +6,10 @@ import com.playgroundagc.songtracker.domain.Song
 /**
  * Created by Amadou on 23/07/2021, 17:49
  *
- * UpdateSong UseCase
+ * Update [Song] UseCase
  *
  */
 
 class UpdateSongUseCase(private val songRepository: SongRepository) {
-    suspend operator fun invoke(song: Song) = songRepository.updateSong(song)
+    suspend operator fun invoke(song: Song) = songRepository.update(song)
 }

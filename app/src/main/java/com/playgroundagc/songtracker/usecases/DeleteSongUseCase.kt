@@ -6,10 +6,10 @@ import com.playgroundagc.songtracker.domain.Song
 /**
  * Created by Amadou on 23/07/2021, 17:50
  *
- * DeleteSong UseCase
+ * Delete [Song] UseCase
  *
  */
 
 class DeleteSongUseCase(private val songRepository: SongRepository) {
-    suspend operator fun invoke(song: Song) = songRepository.deleteSong(song)
+    suspend operator fun invoke(song: Song) = songRepository.delete(song)
 }

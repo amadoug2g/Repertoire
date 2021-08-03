@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/repertoire_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.SongTracker">
-        <activity android:name=".app.ui.VideoActivity"></activity>
+        <activity android:name=".app.ui.VideoActivity" />
         <activity android:name=".app.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
